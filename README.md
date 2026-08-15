@@ -28,7 +28,8 @@ domain knowledge for a specific task or domain.
 This repository gathers skills authored for real engagements and product work,
 cleaned up and organized by category. Each skill is a self-contained folder that
 an agent loads on demand, so nothing here needs to be "installed" as a package —
-you drop the folder into your agent and it becomes available.
+you install its folder into your agent's skills directory and it becomes
+available.
 
 | Category   | Skills | Purpose |
 |------------|--------|---------|
@@ -61,76 +62,29 @@ you drop the folder into your agent and it becomes available.
 
 ### Security
 
-#### authorized-pentest
-
-Run an authorized penetration test end to end — scoping, reconnaissance,
-enumeration, threat modeling, controlled exploitation with minimal proofs of
-concept, privilege escalation, and a professional report.
-
-Built for labs, CTFs, bug bounty, and contracted engagements with an explicit
-scope. Refuses any action without authorization or outside scope.
-
-- **Location:** [`security/authorized-pentest`](security/authorized-pentest)
-
-#### kali-operator
-
-Operate Kali Linux like a senior pentester / security analyst — terminal work,
-tool selection, result interpretation, diagnostics, and Bash/Python automation —
-strictly within an explicitly authorized scope.
-
-For authorized audits, labs, CTFs, administration, forensics, and automation.
-Refuses any action without authorization or outside scope.
-
-- **Location:** [`security/kali-operator`](security/kali-operator)
+| Skill | Description | Location |
+|-------|-------------|----------|
+| **authorized-pentest** | Run an authorized penetration test end to end — scoping, recon, enumeration, threat modeling, controlled exploitation, privilege escalation, and reporting. Built for labs, CTFs, bug bounty, and contracted engagements; refuses any action without authorization. | [`security/authorized-pentest`](security/authorized-pentest) |
+| **kali-operator** | Operate Kali Linux like a senior pentester / security analyst — terminal work, tool selection, result interpretation, diagnostics, and Bash/Python automation, strictly within an authorized scope. | [`security/kali-operator`](security/kali-operator) |
 
 ### Meta
 
-#### leak-guard
-
-Ensure no sensitive information leaks when an AI writes a skill or other
-documentation — scan for credentials, secrets, PII, internal network details,
-and proprietary data, then redact with safe placeholders.
-
-Apply to any new or edited `SKILL.md`, prompt, or document before it is saved.
-
-- **Location:** [`meta/leak-guard`](meta/leak-guard)
+| Skill | Description | Location |
+|-------|-------------|----------|
+| **leak-guard** | Scan skills and documentation for credentials, secrets, PII, internal network details, and proprietary data, then redact with safe placeholders. Apply to any new or edited `SKILL.md`, prompt, or document before it is saved. | [`meta/leak-guard`](meta/leak-guard) |
 
 ### Tools
 
-#### mirofish
-
-Operate the MiroFish swarm-intelligence prediction engine locally — start the
-backend, prepare, launch, monitor, stop, and generate reports for multi-agent
-social simulations (Twitter / Reddit / parallel) via its Flask REST API.
-
-Use whenever the user mentions MiroFish, swarm simulation, agent prediction, or
-a `sim_*` ID.
-
-- **Location:** [`tools/mirofish`](tools/mirofish)
+| Skill | Description | Location |
+|-------|-------------|----------|
+| **mirofish** | Operate the MiroFish swarm-intelligence prediction engine — prepare, launch, monitor, stop, and report on multi-agent social simulations (Twitter / Reddit / parallel) via its Flask REST API. | [`tools/mirofish`](tools/mirofish) |
 
 ### Design
 
-#### github-design
-
-Replicate GitHub's visual identity and Primer design system in a frontend
-project — Primer color tokens (light & dark), Mona Sans / Hubot Sans typography,
-spacing, radii, Octicons, and the component catalog (header, buttons, labels,
-cards, tabs, tables, code blocks, alerts, menus).
-
-Use whenever an interface must look like GitHub.
-
-- **Location:** [`design/github-design`](design/github-design)
-
-#### google-design
-
-Replicate Google's visual identity and Material Design 3 (Material You) in a
-frontend project — Google brand colors, Google Sans, the tonal color system,
-type scale, spacing, shape, elevation, and component patterns.
-
-Use whenever an interface must look like a Google product (Search, Gmail, Drive,
-Docs, Android).
-
-- **Location:** [`design/google-design`](design/google-design)
+| Skill | Description | Location |
+|-------|-------------|----------|
+| **github-design** | Replicate GitHub's visual identity and Primer design system in a frontend project — color tokens (light & dark), Mona Sans / Hubot Sans typography, spacing, radii, Octicons, and the component catalog. | [`design/github-design`](design/github-design) |
+| **google-design** | Replicate Google's visual identity and Material Design 3 (Material You) — brand colors, Google Sans, the tonal color system, type scale, shape, elevation, and component patterns. | [`design/google-design`](design/google-design) |
 
 ---
 
@@ -155,12 +109,34 @@ triggers, which keeps the agent's context lean.
 
 ## Installation
 
-Skills are plain folders — there is no package to install. To use one, copy its
-folder into your agent's skills directory and the agent discovers it
-automatically:
+Skills are plain folders — there is no package to install. An agent discovers a
+skill as soon as its folder lands in the agent's skills directory. Pick the
+method that fits your setup.
 
-- **Codex:** `~/.codex/skills/`
-- **Hermes:** `~/.hermes/skills/`
+### With the skills CLI (recommended)
+
+Install individual skills straight from this repository without cloning it:
+
+```bash
+# preview the skills available in this repo
+npx skills add Dandl-ai/agent-skills --list
+
+# install one skill into ./.agents/skills/
+npx skills add Dandl-ai/agent-skills --skill authorized-pentest --yes
+```
+
+### Copy the folder
+
+Clone or download the repo, then copy a skill folder into your agent's skills
+directory. The agent discovers it automatically:
+
+| Agent | User directory | Project directory |
+|-------|----------------|-------------------|
+| Claude Code | `~/.claude/skills/` | `.claude/skills/` |
+| Codex | `~/.codex/skills/` | — |
+| Cursor | `~/.cursor/skills/` | `.cursor/skills/` |
+| Windsurf | `~/.windsurf/skills/` | `.windsurf/skills/` |
+| Hermes | `~/.hermes/skills/` | — |
 
 ```bash
 # example: install authorized-pentest for Codex
