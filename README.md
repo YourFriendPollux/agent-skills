@@ -36,7 +36,7 @@ available.
 |----------|--------|---------|
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
 | [coding/](coding) | [lean-code](coding/lean-code) | Code minimalism and review, mode-filtered |
-| [meta/](meta) | [leak-guard](meta/leak-guard) | Skill hygiene and anonymization |
+| [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene and anonymization<br>Exhaustive pre-publication leak scan<br>How to write skills that actually work |
 | [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
 | [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design) | Design-system replication |
 
@@ -52,7 +52,9 @@ available.
 │   ├── github-design/
 │   └── google-design/
 ├── meta/
-│   └── leak-guard/
+│   ├── leak-guard/
+│   ├── skill-anonymizer/
+│   └── skill-authoring/
 ├── security/
 │   ├── authorized-pentest/
 │   └── kali-operator/
@@ -82,6 +84,8 @@ available.
 | Skill | Description |
 |-------|-------------|
 | [**leak-guard**](meta/leak-guard) | Scan skills and documentation for credentials, secrets, and PII, then redact them with safe placeholders. Run it before saving any new or edited `SKILL.md`. |
+| [**skill-anonymizer**](meta/skill-anonymizer) | Run an exhaustive pre-publication anonymization scan of a repo or document set — secrets, PII, internal IPs/hostnames, client names, proprietary data — classify findings, redact, and produce a sign-off report. Ships with a dependency-free scanner and a full detection catalog. |
+| [**skill-authoring**](meta/skill-authoring) | Write a skill that actually works — design the trigger (frontmatter), structure the SKILL.md body, bundle `references/`/`scripts/`/`assets/`, and verify it loads and fires before shipping. Ships with a fill-in template and a validation script. |
 
 ### Tools
 
@@ -175,7 +179,10 @@ Contributions are welcome. Each skill must:
    `description` frontmatter;
 2. use **placeholders only** for secrets, domains, IPs, and PII — see
    [`leak-guard`](meta/leak-guard);
-3. follow the `lowercase-hyphen-case` folder naming used across the repo.
+3. follow the `lowercase-hyphen-case` folder naming used across the repo;
+4. pass `python3 meta/skill-authoring/scripts/check_skill.py <skill-folder>`
+   with zero errors — see [`skill-authoring`](meta/skill-authoring) for the
+   full authoring method and a fill-in template.
 
 ---
 
