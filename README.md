@@ -12,6 +12,7 @@ domain knowledge for a specific task or domain.
 - [Repository structure](#repository-structure)
 - [Skills](#skills)
   - [Security](#security)
+  - [Coding](#coding)
   - [Meta](#meta)
   - [Tools](#tools)
   - [Design](#design)
@@ -34,6 +35,7 @@ available.
 | Category | Skills | Purpose |
 |----------|--------|---------|
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
+| [coding/](coding) | [lean-code](coding/lean-code) | Code minimalism and review, mode-filtered |
 | [meta/](meta) | [leak-guard](meta/leak-guard) | Skill hygiene and anonymization |
 | [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
 | [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design) | Design-system replication |
@@ -44,6 +46,8 @@ available.
 
 ```
 .
+├── coding/
+│   └── lean-code/
 ├── design/
 │   ├── github-design/
 │   └── google-design/
@@ -66,6 +70,12 @@ available.
 |-------|-------------|
 | [**authorized-pentest**](security/authorized-pentest) | Run an authorized penetration test end to end — recon, enumeration, exploitation, privilege escalation, reporting. Refuses any action outside an explicit scope. |
 | [**kali-operator**](security/kali-operator) | Operate Kali Linux like a senior pentester — tool selection, result interpretation, diagnostics, and Bash/Python automation, strictly within an authorized scope. |
+
+### Coding
+
+| Skill | Description |
+|-------|-------------|
+| [**lean-code**](coding/lean-code) | Write minimal, efficient code and review diffs for over-engineering, with intensity levels (lite / full / ultra) and a Hermes plugin that injects only the sections matching the active mode. |
 
 ### Meta
 
