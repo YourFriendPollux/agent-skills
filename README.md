@@ -31,12 +31,12 @@ an agent loads on demand, so nothing here needs to be "installed" as a package �
 you install its folder into your agent's skills directory and it becomes
 available.
 
-| Category   | Skills | Purpose |
-|------------|--------|---------|
-| [`security/`](security) | [`authorized-pentest`](security/authorized-pentest), [`kali-operator`](security/kali-operator) | Offensive security, scoped and authorized |
-| [`meta/`](meta)         | [`leak-guard`](meta/leak-guard) | Skill hygiene and anonymization |
-| [`tools/`](tools)       | [`mirofish`](tools/mirofish) | Tool / API integration |
-| [`design/`](design)     | [`github-design`](design/github-design), [`google-design`](design/google-design) | Design-system replication |
+| Category | Skills | Purpose |
+|----------|--------|---------|
+| [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
+| [meta/](meta) | [leak-guard](meta/leak-guard) | Skill hygiene and anonymization |
+| [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
+| [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design) | Design-system replication |
 
 ---
 
@@ -62,29 +62,29 @@ available.
 
 ### Security
 
-| Skill | Description | Location |
-|-------|-------------|----------|
-| **authorized-pentest** | Run an authorized penetration test end to end — scoping, recon, enumeration, threat modeling, controlled exploitation, privilege escalation, and reporting. Built for labs, CTFs, bug bounty, and contracted engagements; refuses any action without authorization. | [`security/authorized-pentest`](security/authorized-pentest) |
-| **kali-operator** | Operate Kali Linux like a senior pentester / security analyst — terminal work, tool selection, result interpretation, diagnostics, and Bash/Python automation, strictly within an authorized scope. | [`security/kali-operator`](security/kali-operator) |
+| Skill | Description |
+|-------|-------------|
+| [**authorized-pentest**](security/authorized-pentest) | Run an authorized penetration test end to end — scoping, recon, enumeration, threat modeling, controlled exploitation, privilege escalation, and reporting. For labs, CTFs, bug bounty, and contracted engagements; refuses any action without authorization. |
+| [**kali-operator**](security/kali-operator) | Operate Kali Linux like a senior pentester / security analyst — terminal work, tool selection, result interpretation, diagnostics, and Bash/Python automation, strictly within an authorized scope. |
 
 ### Meta
 
-| Skill | Description | Location |
-|-------|-------------|----------|
-| **leak-guard** | Scan skills and documentation for credentials, secrets, PII, internal network details, and proprietary data, then redact with safe placeholders. Apply to any new or edited `SKILL.md`, prompt, or document before it is saved. | [`meta/leak-guard`](meta/leak-guard) |
+| Skill | Description |
+|-------|-------------|
+| [**leak-guard**](meta/leak-guard) | Scan skills and documentation for credentials, secrets, PII, internal network details, and proprietary data, then redact with safe placeholders. Apply to any new or edited `SKILL.md`, prompt, or document before it is saved. |
 
 ### Tools
 
-| Skill | Description | Location |
-|-------|-------------|----------|
-| **mirofish** | Operate the MiroFish swarm-intelligence prediction engine — prepare, launch, monitor, stop, and report on multi-agent social simulations (Twitter / Reddit / parallel) via its Flask REST API. | [`tools/mirofish`](tools/mirofish) |
+| Skill | Description |
+|-------|-------------|
+| [**mirofish**](tools/mirofish) | Operate the MiroFish swarm-intelligence prediction engine — prepare, launch, monitor, stop, and report on multi-agent social simulations (Twitter / Reddit / parallel) via its Flask REST API. |
 
 ### Design
 
-| Skill | Description | Location |
-|-------|-------------|----------|
-| **github-design** | Replicate GitHub's visual identity and Primer design system in a frontend project — color tokens (light & dark), Mona Sans / Hubot Sans typography, spacing, radii, Octicons, and the component catalog. | [`design/github-design`](design/github-design) |
-| **google-design** | Replicate Google's visual identity and Material Design 3 (Material You) — brand colors, Google Sans, the tonal color system, type scale, shape, elevation, and component patterns. | [`design/google-design`](design/google-design) |
+| Skill | Description |
+|-------|-------------|
+| [**github-design**](design/github-design) | Replicate GitHub's visual identity and Primer design system in a frontend project — color tokens (light & dark), Mona Sans / Hubot Sans typography, spacing, radii, Octicons, and the component catalog. |
+| [**google-design**](design/google-design) | Replicate Google's visual identity and Material Design 3 (Material You) — brand colors, Google Sans, the tonal color system, type scale, shape, elevation, and component patterns. |
 
 ---
 
