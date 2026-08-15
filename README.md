@@ -11,9 +11,9 @@ domain knowledge for a specific task or domain.
 - [Overview](#overview)
 - [Repository structure](#repository-structure)
 - [Skills](#skills)
+  - [Meta](#meta)
   - [Security](#security)
   - [Coding](#coding)
-  - [Meta](#meta)
   - [Tools](#tools)
   - [Design](#design)
 - [What is a skill?](#what-is-a-skill)
@@ -34,9 +34,9 @@ available.
 
 | Category | Skills | Purpose |
 |----------|--------|---------|
+| [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene and anonymization<br>Exhaustive pre-publication leak scan<br>How to write skills that actually work |
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
 | [coding/](coding) | [lean-code](coding/lean-code) | Code minimalism and review, mode-filtered |
-| [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene and anonymization<br>Exhaustive pre-publication leak scan<br>How to write skills that actually work |
 | [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
 | [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design) | Design-system replication |
 
@@ -46,11 +46,6 @@ available.
 
 ```
 .
-├── coding/
-│   └── lean-code/
-├── design/
-│   ├── github-design/
-│   └── google-design/
 ├── meta/
 │   ├── leak-guard/
 │   ├── skill-anonymizer/
@@ -58,13 +53,26 @@ available.
 ├── security/
 │   ├── authorized-pentest/
 │   └── kali-operator/
-└── tools/
-    └── mirofish/
+├── coding/
+│   └── lean-code/
+├── tools/
+│   └── mirofish/
+└── design/
+    ├── github-design/
+    └── google-design/
 ```
 
 ---
 
 ## Skills
+
+### Meta
+
+| Skill | Description |
+|-------|-------------|
+| [**leak-guard**](meta/leak-guard) | Scan skills and documentation for credentials, secrets, and PII, then redact them with safe placeholders. Run it before saving any new or edited `SKILL.md`. |
+| [**skill-anonymizer**](meta/skill-anonymizer) | Run an exhaustive pre-publication anonymization scan of a repo or document set — secrets, PII, internal IPs/hostnames, client names, proprietary data — classify findings, redact, and produce a sign-off report. Ships with a dependency-free scanner and a full detection catalog. |
+| [**skill-authoring**](meta/skill-authoring) | Write a skill that actually works — design the trigger (frontmatter), structure the SKILL.md body, bundle `references/`/`scripts/`/`assets/`, and verify it loads and fires before shipping. Ships with a fill-in template and a validation script. |
 
 ### Security
 
@@ -78,14 +86,6 @@ available.
 | Skill | Description |
 |-------|-------------|
 | [**lean-code**](coding/lean-code) | Write minimal, efficient code and review diffs for over-engineering, with intensity levels (lite / full / ultra) and a Hermes plugin that injects only the sections matching the active mode. |
-
-### Meta
-
-| Skill | Description |
-|-------|-------------|
-| [**leak-guard**](meta/leak-guard) | Scan skills and documentation for credentials, secrets, and PII, then redact them with safe placeholders. Run it before saving any new or edited `SKILL.md`. |
-| [**skill-anonymizer**](meta/skill-anonymizer) | Run an exhaustive pre-publication anonymization scan of a repo or document set — secrets, PII, internal IPs/hostnames, client names, proprietary data — classify findings, redact, and produce a sign-off report. Ships with a dependency-free scanner and a full detection catalog. |
-| [**skill-authoring**](meta/skill-authoring) | Write a skill that actually works — design the trigger (frontmatter), structure the SKILL.md body, bundle `references/`/`scripts/`/`assets/`, and verify it loads and fires before shipping. Ships with a fill-in template and a validation script. |
 
 ### Tools
 
