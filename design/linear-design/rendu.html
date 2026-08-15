@@ -1,0 +1,2452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linear Design — Rendu · linear-design skill</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   linear-design · rendu (v2 — haute finition)
+   Replica of Linear's premium dark identity — SKILL.md tokens.
+   Inter Tight (display) / Inter (text) / JetBrains Mono stand in
+   for Linear's proprietary faces.
+
+   Golden rules enforced — see SKILL.md §2, §8, §9:
+     · canvas #010102, never #000000; dark-first, always
+     · one chromatic accent #5e6ad2 — never a section/card fill
+     · depth = surface ladder + hairlines; NO drop shadows
+     · NO gradients (not even the hero) — the only "glow" is the
+       white edge highlight on lifted panels (inset 1px top)
+     · buttons/inputs 8px radius; pills only for tabs/badges
+     · display ≤ 600 with negative tracking; mono for IDs/code only
+   ============================================================ */
+
+:root {
+  /* Canvas & surfaces */
+  --lin-canvas: #010102;
+  --lin-surface-1: #0f1011;
+  --lin-surface-2: #141516;
+  --lin-surface-3: #18191a;
+  --lin-surface-4: #191a1b;
+
+  /* Hairlines */
+  --lin-hairline: #23252a;
+  --lin-hairline-strong: #34343a;
+  --lin-hairline-tertiary: #3e3e44;
+
+  /* Ink */
+  --lin-ink: #f7f8f8;
+  --lin-ink-muted: #d0d6e0;
+  --lin-ink-subtle: #8a8f98;
+  --lin-ink-tertiary: #62666d;
+
+  /* Accent & semantic */
+  --lin-primary: #5e6ad2;
+  --lin-primary-hover: #828fff;
+  --lin-primary-focus: #5e69d1;
+  --lin-on-primary: #ffffff;
+  --lin-success: #27a644;
+  --lin-overlay: #000000;
+
+  /* Type */
+  --lin-font-display: 'Inter Tight', 'Inter', 'SF Pro Display', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --lin-font-text: 'Inter', 'SF Pro Text', -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --lin-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Shape */
+  --lin-radius-xs: 4px;
+  --lin-radius-sm: 6px;
+  --lin-radius-md: 8px;
+  --lin-radius-lg: 12px;
+  --lin-radius-xl: 16px;
+  --lin-radius-xxl: 24px;
+  --lin-radius-pill: 9999px;
+
+  /* Spacing (4px base) */
+  --lin-space-1: 4px;
+  --lin-space-2: 8px;
+  --lin-space-3: 12px;
+  --lin-space-4: 16px;
+  --lin-space-6: 24px;
+  --lin-space-8: 32px;
+  --lin-space-12: 48px;
+  --lin-space-section: 96px;
+
+  /* The one allowed "glow": faint white edge highlight on lifted panels */
+  --lin-edge: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+
+  /* Hairline grid for the hero (SVG pattern — no gradients) */
+  --lin-grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' opacity='0.05'%3E%3Cpath d='M72 0H0V72' fill='none' stroke='%23f7f8f8' stroke-width='1'/%3E%3C/svg%3E");
+
+  /* Film grain (SVG noise — no gradients) */
+  --lin-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  font-family: var(--lin-font-text);
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.05px;
+  color: var(--lin-ink);
+  background: var(--lin-canvas);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--lin-font-display);
+  font-weight: 600;
+  color: var(--lin-ink);
+  font-feature-settings: "cv11", "ss01";
+}
+
+a { color: var(--lin-primary); text-decoration: none; }
+a:hover { color: var(--lin-primary-hover); }
+
+code, pre, kbd { font-family: var(--lin-font-mono); }
+
+::selection { background: rgba(94, 106, 210, 0.32); color: var(--lin-ink); }
+
+/* thin dark scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--lin-canvas); }
+::-webkit-scrollbar-thumb {
+  background: var(--lin-surface-3);
+  border-radius: 8px;
+  border: 2px solid var(--lin-canvas);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--lin-hairline-strong); }
+* { scrollbar-width: thin; scrollbar-color: var(--lin-surface-3) var(--lin-canvas); }
+
+/* film grain over everything — very low opacity */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;
+  background-image: var(--lin-grain);
+  opacity: 0.032;
+  mix-blend-mode: overlay;
+}
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 var(--lin-space-8); }
+
+/* ------------------------------------------------ type scale */
+.t-display-xl { font-size: 80px; line-height: 1.05; letter-spacing: -3.0px; font-weight: 600; }
+.t-display-lg { font-size: 56px; line-height: 1.10; letter-spacing: -1.8px; font-weight: 600; }
+.t-display-md { font-size: 40px; line-height: 1.15; letter-spacing: -1.0px; font-weight: 600; }
+.t-headline  { font-size: 28px; line-height: 1.20; letter-spacing: -0.6px; font-weight: 600; }
+.t-card-title{ font-size: 22px; line-height: 1.25; letter-spacing: -0.4px; font-weight: 500; }
+.t-subhead   { font-size: 20px; line-height: 1.40; letter-spacing: -0.2px; font-weight: 400; }
+.t-body-lg   { font-size: 18px; line-height: 1.50; letter-spacing: -0.1px; font-weight: 400; }
+.t-body      { font-size: 16px; line-height: 1.50; letter-spacing: -0.05px; font-weight: 400; }
+.t-body-sm   { font-size: 14px; line-height: 1.50; letter-spacing: 0; font-weight: 400; }
+.t-caption   { font-size: 12px; line-height: 1.40; letter-spacing: 0; font-weight: 400; }
+.t-button    { font-size: 14px; line-height: 1.20; letter-spacing: 0; font-weight: 500; }
+.t-eyebrow   { font-size: 13px; line-height: 1.30; letter-spacing: +0.4px; font-weight: 500; text-transform: uppercase; }
+.t-mono      { font-family: var(--lin-font-mono); font-size: 13px; line-height: 1.50; font-weight: 400; }
+
+.ink          { color: var(--lin-ink); }
+.ink-muted    { color: var(--lin-ink-muted); }
+.ink-subtle   { color: var(--lin-ink-subtle); }
+.ink-tertiary { color: var(--lin-ink-tertiary); }
+.primary      { color: var(--lin-primary); }
+
+/* ------------------------------------------------ buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lin-space-2);
+  padding: var(--lin-space-2) 14px;                 /* 8 × 14 */
+  border-radius: var(--lin-radius-md);              /* 8px — never pill */
+  font-family: var(--lin-font-text);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 140ms ease, border-color 140ms ease,
+              color 140ms ease, transform 60ms ease;
+}
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--lin-primary);
+  color: var(--lin-on-primary);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);  /* allowed white edge */
+}
+.btn-primary:hover  { background: var(--lin-primary-hover); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18); }
+.btn-primary:active { background: var(--lin-primary-focus); }
+
+.btn-secondary {
+  background: var(--lin-surface-1);
+  color: var(--lin-ink);
+  border-color: var(--lin-hairline);
+  box-shadow: var(--lin-edge);
+}
+.btn-secondary:hover { border-color: var(--lin-hairline-strong); background: var(--lin-surface-2); }
+.btn-secondary:active { background: var(--lin-surface-3); }
+
+.btn-tertiary {
+  background: transparent;
+  color: var(--lin-ink-muted);
+  padding-left: var(--lin-space-3);
+  padding-right: var(--lin-space-3);
+}
+.btn-tertiary:hover { color: var(--lin-ink); background: rgba(255, 255, 255, 0.045); }
+
+.btn-inverse {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+.btn-inverse:hover { background: #e9ebee; }
+
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+:focus-visible {
+  outline: 2px solid rgba(94, 105, 209, 0.5);       /* 2px primary-focus @ 50% */
+  outline-offset: 2px;
+  border-radius: var(--lin-radius-md);
+}
+
+/* ------------------------------------------------ pills (tabs & badges only) */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  border-radius: var(--lin-radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  padding: 4px 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+.pill-tab.selected {
+  background: var(--lin-surface-2);
+  color: var(--lin-ink);
+}
+.pill-tab:not(.selected) { color: var(--lin-ink-subtle); }
+.pill-tab:not(.selected):hover { color: var(--lin-ink-muted); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: var(--lin-radius-pill);
+  background: var(--lin-surface-2);
+  color: var(--lin-ink-muted);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 2px 8px;                                  /* 2 × 8 per SKILL */
+  white-space: nowrap;
+}
+.badge.accent { background: var(--lin-primary); color: var(--lin-on-primary); }
+
+/* ------------------------------------------------ kbd */
+kbd {
+  background: var(--lin-surface-3);
+  border: 1px solid var(--lin-hairline-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--lin-radius-xs);
+  padding: 1px 6px;
+  font-size: 12px;
+  font-family: var(--lin-font-mono);
+  color: var(--lin-ink-tertiary);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------ cards & panels */
+.card {
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-lg);
+  padding: var(--lin-space-6);
+  box-shadow: var(--lin-edge);
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+.card.hoverable:hover {
+  border-color: var(--lin-hairline-strong);
+  transform: translateY(-2px);
+}
+.card.featured {
+  background: var(--lin-surface-2);
+  border-color: var(--lin-hairline-strong);
+}
+.panel {
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-xl);
+  box-shadow: var(--lin-edge);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------ inputs */
+.field { display: flex; flex-direction: column; gap: var(--lin-space-2); }
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lin-ink-muted);
+}
+.input {
+  background: var(--lin-surface-1);
+  color: var(--lin-ink);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-md);
+  padding: var(--lin-space-2) var(--lin-space-3);    /* 8 × 12 */
+  font-family: var(--lin-font-text);
+  font-size: 14px;
+  line-height: 1.5;
+  width: 100%;
+  transition: border-color 140ms ease, box-shadow 140ms ease;
+}
+.input::placeholder { color: var(--lin-ink-tertiary); }
+.input:focus {
+  outline: none;
+  border-color: var(--lin-hairline-strong);
+  box-shadow: 0 0 0 2px rgba(94, 105, 209, 0.5);    /* focus ring, 50% */
+}
+.input:disabled { opacity: 0.5; cursor: not-allowed; }
+.input.is-focused {
+  border-color: var(--lin-hairline-strong);
+  box-shadow: 0 0 0 2px rgba(94, 105, 209, 0.5);
+}
+
+/* ------------------------------------------------ avatars */
+.avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--lin-surface-1);
+  background: var(--lin-surface-3);
+  color: var(--lin-ink-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+.avatar.lg { width: 36px; height: 36px; font-size: 13px; }
+.avatar.tinted { background: rgba(94, 106, 210, 0.18); color: var(--lin-primary-hover); }
+.avatar-stack { display: flex; }
+.avatar-stack .avatar { margin-left: -7px; }
+.avatar-stack .avatar:first-child { margin-left: 0; }
+
+/* ------------------------------------------------ top nav */
+.topnav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 80px;
+  background: rgba(1, 1, 2, 0.82);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--lin-hairline);
+  display: flex;
+  align-items: center;
+}
+.topnav .inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  font-family: var(--lin-font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--lin-ink);
+}
+.wordmark:hover { color: var(--lin-ink); }
+/* logo lockup — Linear's real logomark: a rounded-square frame with
+   the hollow “L” cut into it. Monochrome (ink) by default, the one
+   place the accent may touch the brand mark (SKILL §2.2, §11.4). */
+.wordmark .mark {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lin-ink);
+  transition: color 140ms ease, transform 140ms ease;
+}
+.wordmark .mark svg { display: block; }
+.wordmark:hover .mark {
+  color: var(--lin-primary);
+  transform: translateY(-1px);
+}
+.nav-links {
+  display: flex;
+  gap: var(--lin-space-8);
+  list-style: none;
+}
+.nav-links a {
+  position: relative;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--lin-ink-subtle);
+  padding: 5px 0;
+  transition: color 140ms ease;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 1px;
+  background: var(--lin-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
+}
+.nav-links a:hover { color: var(--lin-ink); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-links a.active { color: var(--lin-ink); }
+.nav-links a.active::after { transform: scaleX(1); }
+.nav-cta { display: flex; align-items: center; gap: var(--lin-space-3); }
+.topnav .btn { padding-top: 9px; padding-bottom: 9px; }
+
+/* ------------------------------------------------ sections */
+section { padding: var(--lin-space-section) 0; position: relative; }
+.section-head { max-width: 720px; margin-bottom: var(--lin-space-12); }
+.section-head .t-eyebrow { color: var(--lin-primary); margin-bottom: var(--lin-space-3); }
+.section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  border-radius: var(--lin-radius-sm);
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  color: var(--lin-ink-tertiary);
+  font-family: var(--lin-font-mono);
+  font-size: 12px;
+  margin-right: var(--lin-space-2);
+  box-shadow: var(--lin-edge);
+}
+
+/* ------------------------------------------------ hero */
+.hero {
+  padding: calc(var(--lin-space-section) * 1.2) 0 calc(var(--lin-space-section) * 1.6);
+  text-align: center;
+  overflow: hidden;
+}
+/* Inter Tight's metrics are taller than Linear Display's — the
+   display-xl token (1.05) was tuned for the proprietary face, so
+   the hero gives the fallback stack a bit more air: no crushed
+   descenders/ascenders, no lines touching. */
+.hero h1 { line-height: 1.12; }
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--lin-grid);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 75%);
+  pointer-events: none;
+}
+.hero .container { position: relative; }
+.hero .t-eyebrow { color: var(--lin-primary); margin-bottom: var(--lin-space-6); }
+.hero h1 { max-width: 1020px; margin: 0 auto; }
+.hero h1 .dim { color: var(--lin-ink-muted); }
+.hero .t-body-lg { max-width: 640px; margin: var(--lin-space-8) auto 0; color: var(--lin-ink-muted); }
+.hero .cta-row { margin-top: var(--lin-space-12); display: flex; gap: var(--lin-space-3); justify-content: center; flex-wrap: wrap; }
+.hero .meta-line {
+  margin-top: var(--lin-space-8);
+  display: flex;
+  gap: var(--lin-space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.hero .meta-line .t-mono { color: var(--lin-ink-tertiary); }
+.hero .hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--lin-font-mono);
+  font-size: 12px;
+  color: var(--lin-ink-tertiary);
+}
+
+/* hero version badge — pill, so allowed for badges */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  border-radius: var(--lin-radius-pill);
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  color: var(--lin-ink-muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 5px 14px;
+  box-shadow: var(--lin-edge);
+  margin-bottom: var(--lin-space-6);
+  transition: border-color 160ms ease;
+}
+.hero-badge:hover { border-color: var(--lin-hairline-strong); }
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lin-primary);
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.12);
+}
+.hero-badge .t-mono { font-size: 12px; color: var(--lin-ink-tertiary); }
+
+/* hero product mock — the protagonist, framed in a 16px panel */
+/* 16:9 app window — the frame keeps widescreen proportions at
+   any width; bar + body + status bar stack inside it. */
+.hero-mock {
+  /* generous gap between the CTA buttons and the app window */
+  margin: calc(var(--lin-space-12) + var(--lin-space-4)) auto 0;
+  max-width: 1040px;
+  text-align: left;
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-xl);
+  box-shadow: var(--lin-edge);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 9;
+}
+/* app navbar — real height, not a thin strip */
+.hero-mock .bar {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-4);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--lin-hairline);
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+.hero-mock .bar .crumb {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  font-size: 13px;
+  color: var(--lin-ink-subtle);
+  white-space: nowrap;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hero-mock .bar .crumb .sep { color: var(--lin-ink-tertiary); }
+.hero-mock .bar .spacer { flex: 1; }
+.hero-mock .bar .search {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-sm);
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--lin-ink-tertiary);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.hero-mock .bar .search kbd { font-size: 12px; flex-shrink: 0; }
+.hero-mock .bar .search span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hero-mock .bar .avatar-stack { flex-shrink: 0; }
+/* The body fills the 16:9 frame; list & sidebar scroll internally. */
+.hero-mock .cols { display: flex; flex: 1; min-height: 0; }
+.hero-mock .side {
+  flex: 0 0 168px;
+  padding: 10px 12px;
+  border-right: 1px solid var(--lin-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.hero-mock .side .ws {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  padding: 4px 6px;
+  border-radius: var(--lin-radius-sm);
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--lin-ink);
+  margin-bottom: var(--lin-space-2);
+}
+.hero-mock .side .ws .mark {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--lin-primary);
+}
+.hero-mock .side .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  border-radius: var(--lin-radius-sm);
+  font-size: 12px;
+  color: var(--lin-ink-subtle);
+}
+.hero-mock .side .item.active { background: var(--lin-surface-2); color: var(--lin-ink); }
+.hero-mock .side .item .count { font-family: var(--lin-font-mono); font-size: 11px; color: var(--lin-ink-tertiary); }
+.hero-mock .main {
+  flex: 1;
+  padding: 10px 14px;
+  min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.hero-mock .main .h {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--lin-hairline);
+  margin-bottom: 6px;
+}
+.hero-mock .main .h .t {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--lin-ink);
+}
+.hero-mock .main .h .btn { padding: 4px 10px; font-size: 12px; }
+.hero-mock .row {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-3);
+  padding: 7px 4px;
+  border-bottom: 1px solid var(--lin-hairline);
+  font-size: 12px;
+}
+.hero-mock .row:last-child { border-bottom: none; }
+.hero-mock .row .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--lin-ink-tertiary);
+}
+.hero-mock .row .dot.urgent { background: var(--lin-primary); }
+.hero-mock .row .dot.done { background: var(--lin-success); }
+.hero-mock .row .id { font-family: var(--lin-font-mono); font-size: 11px; color: var(--lin-ink-tertiary); flex-shrink: 0; }
+.hero-mock .row .title { color: var(--lin-ink-muted); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hero-mock .row .title strong { color: var(--lin-ink); font-weight: 500; }
+.hero-mock .row .badge { font-size: 11px; padding: 1px 7px; flex-shrink: 0; }
+.hero-mock .side .label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--lin-ink-tertiary);
+  padding: var(--lin-space-3) 6px 2px;
+}
+/* bottom status bar — completes the app-window frame (bar + body + bar) */
+.hero-mock .statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  border-top: 1px solid var(--lin-hairline);
+  background: var(--lin-surface-1);
+  font-family: var(--lin-font-mono);
+  font-size: 11px;
+  color: var(--lin-ink-tertiary);
+  flex-shrink: 0;
+}
+.hero-mock .statusbar .right { display: flex; align-items: center; gap: var(--lin-space-3); }
+
+/* ------------------------------------------------ logo strip / trusted by */
+.logo-strip {
+  /* a logo band reads as a pause between hero and content —
+     tighter than a section, still framed by hairlines */
+  padding: var(--lin-space-12) 0 calc(var(--lin-space-12) * 1.5);
+  border-top: 1px solid var(--lin-hairline);
+  border-bottom: 1px solid var(--lin-hairline);
+}
+.logo-strip .label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lin-space-2);
+  font-family: var(--lin-font-text);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--lin-ink-subtle);
+  margin-bottom: var(--lin-space-12);
+}
+.logo-strip .label .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lin-primary);
+  box-shadow: 0 0 0 3px rgba(94, 106, 210, 0.12);
+}
+/* marquee — the band scrolls as one continuous ribbon. Each group is
+   self-contained (internal gap + equal trailing padding), so the -50%
+   loop is seamless. Edge fade via mask-image — same technique as the
+   hero grid, no background gradients. Pauses on hover. */
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  /* 14 lockups per loop — slow enough to read, fast enough to feel alive */
+  animation: marquee 60s linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-12);
+  padding-right: var(--lin-space-12);
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+/* one monochrome voice for the whole band — icons inherit the
+   item's color, so hover lifts the mark and name together */
+.logo-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lin-space-3);
+  font-family: var(--lin-font-display);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  color: var(--lin-ink-subtle);
+  opacity: 0.8;
+  transition: color 160ms ease, opacity 160ms ease;
+  white-space: nowrap;
+}
+.logo-item svg { color: inherit; }
+.logo-item:hover { color: var(--lin-ink); opacity: 1; }
+.logo-strip .note {
+  margin-top: var(--lin-space-12);
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--lin-ink-tertiary);
+}
+
+/* ------------------------------------------------ tokens grid */
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--lin-space-6);
+}
+.token-group .t-card-title { margin-bottom: var(--lin-space-4); }
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: var(--lin-space-3);
+}
+.swatch .chip {
+  height: 60px;
+  border-radius: var(--lin-radius-sm);
+  border: 1px solid var(--lin-hairline);
+  margin-bottom: var(--lin-space-2);
+  position: relative;
+  transition: border-color 160ms ease;
+}
+.swatch:hover .chip { border-color: var(--lin-hairline-strong); }
+.swatch .name { font-size: 13px; font-weight: 500; color: var(--lin-ink-muted); }
+.swatch .hex  { font-family: var(--lin-font-mono); font-size: 12px; color: var(--lin-ink-tertiary); }
+.swatch .role { font-size: 11px; color: var(--lin-ink-tertiary); margin-top: 1px; }
+
+/* ------------------------------------------------ type specimen */
+.type-specimen { display: flex; flex-direction: column; }
+.type-row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lin-space-8);
+  padding: var(--lin-space-6) 0;
+  border-bottom: 1px solid var(--lin-hairline);
+}
+.type-row:first-child { padding-top: 0; }
+.type-row:last-child { border-bottom: none; padding-bottom: 0; }
+.type-row .meta {
+  flex: 0 0 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.type-row .meta .t-mono { color: var(--lin-ink-subtle); }
+.type-row .meta .spec { font-size: 12px; color: var(--lin-ink-tertiary); font-family: var(--lin-font-mono); }
+.type-row .sample { flex: 1; color: var(--lin-ink); }
+
+/* ------------------------------------------------ components grid */
+.comp-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: var(--lin-space-6);
+}
+.comp-grid .card { display: flex; flex-direction: column; gap: var(--lin-space-4); }
+.comp-grid .card h3 { margin-bottom: var(--lin-space-1); }
+.comp-grid .card .desc { color: var(--lin-ink-subtle); }
+.btn-row { display: flex; flex-wrap: wrap; gap: var(--lin-space-3); align-items: center; }
+
+/* ------------------------------------------------ product mock */
+/* Same 16:9 widescreen frame as the hero mock — both fake apps
+   share one proportion instead of the board spanning the container. */
+.mock {
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--lin-edge);
+  position: relative;
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 16 / 9;
+}
+.mock-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lin-space-4);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--lin-hairline);
+  background: var(--lin-surface-1);
+  flex-shrink: 0;
+}
+.mock-topbar .left { display: flex; align-items: center; gap: var(--lin-space-3); min-width: 0; }
+.mock-crumb {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  font-size: 13px;
+  color: var(--lin-ink-subtle);
+  white-space: nowrap;
+}
+.mock-crumb .sep { color: var(--lin-ink-tertiary); }
+.mock-search {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-sm);
+  padding: 6px 10px;
+  color: var(--lin-ink-tertiary);
+  font-size: 13px;
+  min-width: 200px;
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+.mock-search:hover { border-color: var(--lin-hairline-strong); background: var(--lin-surface-3); }
+.mock-search kbd { margin-left: auto; }
+.mock-topbar .right { display: flex; align-items: center; gap: var(--lin-space-3); }
+/* The board fills the 16:9 frame; columns scroll inside it. */
+.mock-body { display: flex; flex: 1; min-height: 0; }
+.mock-sidebar {
+  flex: 0 0 216px;
+  padding: var(--lin-space-4);
+  border-right: 1px solid var(--lin-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.mock-workspace {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  padding: 6px 8px;
+  border-radius: var(--lin-radius-sm);
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--lin-ink);
+  margin-bottom: var(--lin-space-3);
+  box-shadow: var(--lin-edge);
+}
+.mock-workspace .mark {
+  width: 16px; height: 16px;
+  border-radius: 4px;
+  background: var(--lin-primary);
+}
+.mock-workspace .caret { margin-left: auto; color: var(--lin-ink-tertiary); font-size: 10px; }
+.mock-nav-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--lin-ink-tertiary);
+  padding: var(--lin-space-4) 8px 4px;
+}
+.mock-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  border-radius: var(--lin-radius-sm);
+  font-size: 13px;
+  color: var(--lin-ink-subtle);
+  transition: background 120ms ease, color 120ms ease;
+}
+.mock-nav-item:hover { background: var(--lin-surface-2); color: var(--lin-ink-muted); }
+.mock-nav-item.active { background: var(--lin-surface-2); color: var(--lin-ink); }
+.mock-nav-item.active::before {
+  content: '';
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--lin-primary);
+  margin-right: var(--lin-space-1);
+}
+.mock-nav-item .count { font-family: var(--lin-font-mono); font-size: 12px; color: var(--lin-ink-tertiary); margin-left: auto; }
+.mock-nav-item .count + .count { margin-left: 0; }
+.mock-main { flex: 1; padding: var(--lin-space-4); display: flex; flex-direction: column; min-width: 0; }
+.mock-main-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--lin-space-2) var(--lin-space-2) var(--lin-space-3);
+  border-bottom: 1px solid var(--lin-hairline);
+}
+.mock-main-head h4 { font-size: 14px; font-weight: 600; letter-spacing: -0.2px; }
+.mock-main-head .actions { display: flex; gap: var(--lin-space-2); }
+.board {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* one row filling the frame; columns stretch to it */
+  grid-auto-rows: minmax(0, 1fr);
+  gap: var(--lin-space-4);
+  padding-top: var(--lin-space-4);
+  min-height: 0;
+}
+/* each column scrolls on its own, like Linear's board — cards are
+   never clipped, the frame keeps its height */
+.board-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lin-space-2);
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.board-col-head {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-2);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--lin-ink-subtle);
+  padding: 0 4px 4px;
+}
+.board-col-head .count { font-family: var(--lin-font-mono); font-size: 11px; color: var(--lin-ink-tertiary); }
+.issue-card {
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-md);
+  padding: var(--lin-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lin-space-2);
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease, transform 140ms ease;
+  box-shadow: var(--lin-edge);
+}
+.issue-card:hover { border-color: var(--lin-hairline-strong); background: var(--lin-surface-3); transform: translateY(-1px); }
+.issue-card .row1 { display: flex; align-items: center; gap: var(--lin-space-2); }
+.issue-card .row1 .id { font-family: var(--lin-font-mono); font-size: 12px; color: var(--lin-ink-tertiary); }
+.issue-card .row1 .dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--lin-ink-tertiary);
+}
+.issue-card .row1 .dot.p-urgent { background: var(--lin-primary); }
+.issue-card .row1 .dot.p-done   { background: var(--lin-success); }
+.issue-card .title { font-size: 13px; color: var(--lin-ink-muted); line-height: 1.45; }
+.issue-card .title strong { color: var(--lin-ink); font-weight: 500; }
+.issue-card .row3 { display: flex; align-items: center; justify-content: space-between; }
+.issue-card .labels { display: flex; gap: 4px; flex-wrap: wrap; }
+.issue-card .label-tag {
+  font-size: 11px;
+  color: var(--lin-ink-subtle);
+  background: var(--lin-surface-3);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-xs);
+  padding: 1px 6px;
+  font-family: var(--lin-font-mono);
+}
+.issue-card .label-tag.tint { color: var(--lin-primary-hover); border-color: rgba(94, 106, 210, 0.4); }
+.mock-statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  border-top: 1px solid var(--lin-hairline);
+  background: var(--lin-surface-1);
+  font-family: var(--lin-font-mono);
+  font-size: 12px;
+  color: var(--lin-ink-tertiary);
+  flex-shrink: 0;
+}
+.mock-statusbar .right { display: flex; align-items: center; gap: var(--lin-space-4); }
+
+/* ------------------------------------------------ command palette */
+.palette-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+.palette-scrim.open { opacity: 1; pointer-events: auto; }
+.palette {
+  width: min(600px, calc(100vw - 32px));
+  background: var(--lin-surface-3);
+  border: 1px solid var(--lin-hairline-strong);
+  border-radius: var(--lin-radius-lg);
+  box-shadow: var(--lin-edge);
+  overflow: hidden;
+  transform: translateY(-8px) scale(0.985);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.palette-scrim.open .palette { transform: translateY(0) scale(1); }
+.palette-search {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-3);
+  padding: var(--lin-space-4);
+  border-bottom: 1px solid var(--lin-hairline);
+}
+.palette-search .mag { color: var(--lin-ink-tertiary); flex-shrink: 0; }
+.palette-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--lin-ink);
+  font-family: var(--lin-font-text);
+  font-size: 15px;
+  letter-spacing: -0.1px;
+}
+.palette-search input::placeholder { color: var(--lin-ink-tertiary); }
+.palette-group { padding: var(--lin-space-2) var(--lin-space-2) 0; }
+.palette-group-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--lin-ink-tertiary);
+  padding: var(--lin-space-2) var(--lin-space-2) 2px;
+}
+.palette-item {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-3);
+  padding: 8px 10px;
+  border-radius: var(--lin-radius-sm);
+  font-size: 14px;
+  color: var(--lin-ink-muted);
+  cursor: pointer;
+  transition: background 100ms ease, color 100ms ease;
+}
+.palette-item:hover, .palette-item.selected { background: var(--lin-surface-2); color: var(--lin-ink); }
+.palette-item .ic { color: var(--lin-ink-tertiary); flex-shrink: 0; }
+.palette-item .ic.accent { color: var(--lin-primary); }
+.palette-item kbd { margin-left: auto; }
+.palette-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--lin-space-4);
+  padding: 10px var(--lin-space-4);
+  border-top: 1px solid var(--lin-hairline);
+  font-size: 12px;
+  color: var(--lin-ink-tertiary);
+}
+.palette-foot .hint { display: flex; align-items: center; gap: 6px; }
+
+/* ------------------------------------------------ pricing */
+.billing-row { display: flex; gap: 2px; background: var(--lin-surface-1); border: 1px solid var(--lin-hairline); border-radius: var(--lin-radius-pill); padding: 2px; width: fit-content; margin-bottom: var(--lin-space-12); box-shadow: var(--lin-edge); }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lin-space-6);
+  align-items: stretch;
+}
+.pricing-grid .card { display: flex; flex-direction: column; gap: var(--lin-space-4); }
+.pricing-grid .price { display: flex; align-items: baseline; gap: var(--lin-space-2); }
+.pricing-grid .price .amount { font-size: 40px; font-weight: 600; letter-spacing: -1px; font-family: var(--lin-font-display); }
+.pricing-grid .price .period { color: var(--lin-ink-tertiary); }
+.pricing-grid .save { color: var(--lin-success); font-size: 12px; font-weight: 500; }
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: var(--lin-space-2); margin-top: auto; }
+.feature-list li { display: flex; gap: var(--lin-space-2); align-items: flex-start; color: var(--lin-ink-muted); font-size: 14px; }
+.feature-list .check { color: var(--lin-primary); flex-shrink: 0; }
+.card.featured .feature-list .check { color: var(--lin-primary-hover); }
+.pricing-grid .btn { margin-top: var(--lin-space-2); width: 100%; }
+
+/* ------------------------------------------------ testimonials */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--lin-space-6);
+}
+.testimonial {
+  background: var(--lin-surface-1);
+  border: 1px solid var(--lin-hairline);
+  border-radius: var(--lin-radius-lg);
+  padding: var(--lin-space-8);                      /* 32px — testimonial cards */
+  box-shadow: var(--lin-edge);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lin-space-6);
+  transition: border-color 180ms ease, transform 180ms ease;
+}
+.testimonial:hover { border-color: var(--lin-hairline-strong); transform: translateY(-2px); }
+.testimonial .quote { font-size: 16px; line-height: 1.55; letter-spacing: -0.1px; color: var(--lin-ink-muted); }
+.testimonial .quote::before { content: '“'; color: var(--lin-primary); font-family: var(--lin-font-display); font-weight: 600; }
+.testimonial .author { display: flex; align-items: center; gap: var(--lin-space-3); }
+.testimonial .author .name { font-size: 14px; font-weight: 500; color: var(--lin-ink); }
+.testimonial .author .role { font-size: 13px; color: var(--lin-ink-tertiary); }
+
+/* ------------------------------------------------ CTA banner */
+.cta-banner {
+  background: var(--lin-surface-2);
+  border: 1px solid var(--lin-hairline-strong);
+  border-radius: var(--lin-radius-xxl);             /* 24px — oversized CTA */
+  padding: var(--lin-space-12);                     /* 48px interior */
+  box-shadow: var(--lin-edge);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--lin-grid);
+  background-size: 72px 72px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+.cta-banner .inner { position: relative; }
+.cta-banner h2 { max-width: 640px; margin: 0 auto; }
+.cta-banner .t-body-lg { max-width: 520px; margin: var(--lin-space-4) auto 0; color: var(--lin-ink-muted); }
+.cta-banner .cta-row { margin-top: var(--lin-space-8); display: flex; gap: var(--lin-space-3); justify-content: center; flex-wrap: wrap; }
+
+/* ------------------------------------------------ footer */
+.footer {
+  border-top: 1px solid var(--lin-hairline);
+  padding: var(--lin-space-12) 0 32px;
+  background: var(--lin-canvas);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(3, 1fr);
+  gap: var(--lin-space-8);
+  margin-bottom: var(--lin-space-12);
+}
+.footer-col h5 { font-size: 13px; font-weight: 500; color: var(--lin-ink); margin-bottom: var(--lin-space-4); }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--lin-space-2); }
+.footer-col a { font-size: 13px; color: var(--lin-ink-subtle); transition: color 140ms ease; }
+.footer-col a:hover { color: var(--lin-ink); }
+.footer .bottom {
+  border-top: 1px solid var(--lin-hairline);
+  padding-top: var(--lin-space-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lin-space-3);
+  color: var(--lin-ink-tertiary);
+  font-size: 13px;
+}
+.footer .bottom .t-mono { color: var(--lin-ink-tertiary); }
+.footer .social { display: flex; gap: var(--lin-space-4); }
+
+/* ------------------------------------------------ reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 650ms cubic-bezier(0.16, 1, 0.3, 1),
+              transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal.d1 { transition-delay: 60ms; }
+.reveal.d2 { transition-delay: 120ms; }
+.reveal.d3 { transition-delay: 180ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn:active, .issue-card:hover, .card.hoverable:hover, .testimonial:hover { transform: none; }
+  /* marquee falls back to a static, wrapping row — no duplicate group */
+  .marquee-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
+  .marquee-group[aria-hidden="true"] { display: none; }
+}
+
+/* ------------------------------------------------ responsive */
+@media (max-width: 1100px) {
+  .board { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .nav-links { display: none; }
+}
+@media (max-width: 768px) {
+  .t-display-xl { font-size: 44px; letter-spacing: -1.6px; }
+  .t-display-lg { font-size: 36px; letter-spacing: -0.9px; }
+  .type-row { flex-direction: column; gap: var(--lin-space-2); }
+  .type-row .meta { flex: none; }
+  .mock-body { flex-direction: column; }
+  .mock-sidebar { flex: none; border-right: none; border-bottom: 1px solid var(--lin-hairline); }
+  .board { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  section { padding: 64px 0; }
+  .cta-banner { padding: var(--lin-space-8) var(--lin-space-6); }
+}
+/* Narrow: let the product app bar wrap instead of overflowing */
+@media (max-width: 640px) {
+  .mock-topbar { flex-wrap: wrap; }
+  .mock-search { order: 3; flex-basis: 100%; min-width: 0; }
+}
+/* Very narrow: drop the crumb so the app bar stays on one line */
+@media (max-width: 560px) {
+  .hero-mock .bar .crumb { display: none; }
+}
+/* Short laptop viewports: lift the hero mock so the app
+   isn't chopped at the fold on first load. */
+@media (max-height: 800px) {
+  .hero { padding-top: calc(var(--lin-space-section) * 0.7); }
+  .hero-badge { margin-bottom: var(--lin-space-4); }
+  .hero .cta-row { margin-top: var(--lin-space-8); }
+  .hero-mock { margin-top: var(--lin-space-8); }
+  /* 16:9 scales with width — shrink the frame so it isn't
+     chopped by the fold on short laptop viewports */
+  .hero-mock { max-width: 760px; }
+}
+</style>
+</head>
+<body>
+
+<!-- real brand logos — Simple Icons (CC0) + official brand assets, rendered monochrome for the dark canvas. Referenced via <use>. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<g id="li-vercel" fill="currentColor"><path d="m12 1.608 12 20.784H0Z"/></g>
+<g id="li-raycast" fill="currentColor"><path d="M6.004 15.492v2.504L0 11.992l1.258-1.249Zm2.504 2.504H6.004L12.008 24l1.253-1.253zm14.24-4.747L24 11.997 12.003 0 10.75 1.251 15.491 6h-2.865L9.317 2.692 8.065 3.944l2.06 2.06H8.691v9.31H18v-1.432l2.06 2.06 1.252-1.252-3.312-3.32V8.506ZM6.63 5.372 5.38 6.625l1.342 1.343 1.251-1.253Zm10.655 10.655-1.247 1.251 1.342 1.343 1.253-1.251zM3.944 8.059 2.692 9.31l3.312 3.314v-2.506zm9.936 9.937h-2.504l3.314 3.312 1.25-1.252z"/></g>
+<g id="li-notion" fill="currentColor"><path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.981-.7-2.055-.607L3.01 2.295c-.466.046-.56.28-.374.466zm.793 3.08v13.904c0 .747.373 1.027 1.214.98l14.523-.84c.841-.046.935-.56.935-1.167V6.354c0-.606-.233-.933-.748-.887l-15.177.887c-.56.047-.747.327-.747.933zm14.337.745c.093.42 0 .84-.42.888l-.7.14v10.264c-.608.327-1.168.514-1.635.514-.748 0-.935-.234-1.495-.933l-4.577-7.186v6.952L12.21 19s0 .84-1.168.84l-3.222.186c-.093-.186 0-.653.327-.746l.84-.233V9.854L7.822 9.76c-.094-.42.14-1.026.793-1.073l3.456-.233 4.764 7.279v-6.44l-1.215-.139c-.093-.514.28-.887.747-.933zM1.936 1.035l13.31-.98c1.634-.14 2.055-.047 3.082.7l4.249 2.986c.7.513.934.653.934 1.213v16.378c0 1.026-.373 1.634-1.68 1.726l-15.458.934c-.98.047-1.448-.093-1.962-.747l-3.129-4.06c-.56-.747-.793-1.306-.793-1.96V2.667c0-.839.374-1.54 1.447-1.632z"/></g>
+<g id="li-figma" fill="currentColor"><path d="M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z"/></g>
+<g id="li-framer" fill="currentColor"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></g>
+<g id="li-anthropic" fill="currentColor"><path d="M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z"/></g>
+<g id="li-arc" fill="currentColor"><path d="M23.9371 8.5089c.1471-.7147.0367-1.4661-.3364-2.0967-.4203-.7094-1.1035-1.1876-1.9075-1.3506a2.9178 2.9178 0 0 0-.5623-.0578h-.0105c-1.3768 0-2.5329.988-2.8061 2.3385-.1629.7935-.4782 1.5607-.9196 2.2701a.263.263 0 0 1-.2363.1205.2627.2627 0 0 1-.2209-.1468l-2.8587-5.9906c-.3626-.762-1.0142-1.361-1.8235-1.5975-1.3873-.4099-2.8166.2838-3.4052 1.524L5.897 9.7333c-.0788.1629-.31.1576-.3784-.0053v-.0052a2.8597 2.8597 0 0 0-2.6642-1.7972c-.3784 0-.7515.0736-1.1088.2207-1.4714.6148-2.1283 2.349-1.5187 3.8203.557 1.3295 1.4714 2.5855 2.659 3.668.084.0788.1103.1997.063.3048l-.9563 2.0074c-.6727 1.4188-.1314 3.1477 1.2664 3.8571.4099.2049.846.31 1.298.31 1.1035 0 2.123-.6411 2.5959-1.6395l.825-1.7289a.254.254 0 0 1 .3048-.1366c1.0037.2732 2.0127.4204 3.0058.4204 1.1193 0 2.2229-.1682 3.2896-.4782a.2626.2626 0 0 1 .3101.1366l.8145 1.7131c.4834 1.0195 1.4924 1.7131 2.6169 1.7184.4572 0 .8986-.0999 1.3138-.3101 1.403-.7094 1.939-2.4435 1.2664-3.8676L19.875 15.787c-.0473-.1051-.0263-.226.0578-.3048 1.9864-1.8497 3.4525-4.2723 4.0043-6.9733ZM6.2121 20.0172a1.835 1.835 0 0 1-.6764.7622 1.8352 1.8352 0 0 1-.9788.2835c-.2733 0-.5518-.063-.8093-.1891-.9038-.4467-1.2454-1.5713-.8093-2.4804l.7935-1.6658c.0684-.1471.2575-.1997.3837-.1051.1681.1209.3415.2365.5202.3521.6989.4467 1.4293.825 2.1808 1.1351.1419.0578.205.2154.1419.352l-.7462 1.5555Zm5.0763-2.0442c-4.2092 0-8.6548-2.8534-10.1262-6.4951a1.8286 1.8286 0 0 1 1.009-2.3805c.2259-.0893.4571-.1366.683-.1366.7252 0 1.4084.431 1.6974 1.1456.9196 2.2806 4.0043 4.2092 6.7368 4.2092.4204 0 .8408-.042 1.256-.1156a.2643.2643 0 0 1 .2837.1419l1.3768 2.9007c.0683.1471-.0105.3205-.1629.3626-.8986.2365-1.8182.3678-2.7536.3678Zm-.599-4.9291.6358-1.3348c.0526-.1051.205-.1051.2575 0l.6201 1.3033c.042.0841-.0158.1891-.1051.2049-.268.0368-.536.0578-.7988.0578a5.0634 5.0634 0 0 1-.4887-.0263c-.1103-.0157-.1629-.1208-.1208-.2049Zm8.4604 7.8246a1.831 1.831 0 0 1-2.0329-.2788 1.8292 1.8292 0 0 1-.4316-.5778l-4.987-10.4836c-.0998-.2102-.3994-.2102-.4939 0l-1.545 3.2529a.2623.2623 0 0 1-.3205.1366c-1.051-.3626-2.0495-.9774-2.7904-1.7184a.2552.2552 0 0 1-.0473-.2943l3.3421-7.031c.1156-.247.2943-.4677.5203-.6201 1.051-.6884 2.2806-.2575 2.7378.7041l6.8577 14.4248c.4309.9144.0946 2.0389-.8093 2.4856Zm-1.4451-9.6481a.258.258 0 0 1 .0315-.2732c.783-1.0037 1.3558-2.1756 1.6028-3.421.1734-.867.9354-1.4714 1.7919-1.4714.1472 0 .2943.0158.4467.0526.9722.2417 1.5344 1.2507 1.3295 2.2333-.4835 2.3017-1.6816 4.3879-3.3159 6.0222-.1313.1314-.3468.0946-.4256-.0683l-1.4609-3.0742Z"/></g>
+<g id="li-loom" fill="currentColor"><path d="M24 10.665h-7.018l6.078-3.509-1.335-2.312-6.078 3.509 3.508-6.077L16.843.94l-3.508 6.077V0h-2.67v7.018L7.156.94 4.844 2.275l3.509 6.077-6.078-3.508L.94 7.156l6.078 3.509H0v2.67h7.017L.94 16.844l1.335 2.313 6.077-3.508-3.509 6.077 2.312 1.335 3.509-6.078V24h2.67v-7.017l3.508 6.077 2.312-1.335-3.509-6.078 6.078 3.509 1.335-2.313-6.077-3.508h7.017v-2.67H24zm-12 4.966a3.645 3.645 0 1 1 0-7.29 3.645 3.645 0 0 1 0 7.29z"/></g>
+<g id="li-caldotcom" fill="currentColor"><path d="M2.408 14.488C1.035 14.488 0 13.4 0 12.058c0-1.346.982-2.443 2.408-2.443.758 0 1.282.233 1.691.765l-.66.55a1.343 1.343 0 0 0-1.03-.442c-.93 0-1.44.711-1.44 1.57 0 .86.559 1.557 1.44 1.557.413 0 .765-.147 1.043-.443l.651.573c-.391.51-.929.743-1.695.743zM6.948 10.913h.89v3.49h-.89v-.51c-.185.362-.493.604-1.083.604-.943 0-1.695-.82-1.695-1.826 0-1.007.752-1.825 1.695-1.825.585 0 .898.241 1.083.604zm.026 1.758c0-.546-.374-.998-.964-.998-.568 0-.938.457-.938.998 0 .528.37.998.938.998.586 0 .964-.456.964-.998zM8.467 9.503h.89v4.895h-.89zM9.752 13.937a.53.53 0 0 1 .542-.528c.313 0 .533.242.533.528a.527.527 0 0 1-.533.537.534.534 0 0 1-.542-.537zM14.23 13.839c-.33.403-.832.658-1.426.658a1.806 1.806 0 0 1-1.84-1.826c0-1.007.778-1.825 1.84-1.825.572 0 1.07.241 1.4.622l-.687.577c-.172-.215-.396-.376-.713-.376-.568 0-.938.456-.938.998 0 .541.37.997.938.997.343 0 .58-.179.757-.42zM14.305 12.671c0-1.007.78-1.825 1.84-1.825 1.061 0 1.84.818 1.84 1.825 0 1.007-.779 1.826-1.84 1.826-1.06-.005-1.84-.82-1.84-1.826zm2.778 0c0-.546-.37-.998-.938-.998-.568-.004-.937.452-.937.998 0 .542.37.998.937.998.568 0 .938-.456.938-.998zM24 12.269v2.13h-.89v-1.911c0-.604-.281-.864-.704-.864-.396 0-.678.197-.678.864v1.91h-.89v-1.91c0-.604-.285-.864-.704-.864-.396 0-.744.197-.744.864v1.91h-.89v-3.49h.89v.484c.185-.376.52-.564 1.035-.564.489 0 .898.241 1.123.649.224-.417.554-.65 1.153-.65.731.005 1.299.56 1.299 1.442z"/></g>
+<g id="li-pagerduty" fill="currentColor"><path d="M16.965 1.18C15.085.164 13.769 0 10.683 0H3.73v14.55h6.926c2.743 0 4.8-.164 6.61-1.37 1.975-1.303 3.004-3.484 3.004-6.007 0-2.716-1.262-4.896-3.305-5.994zm-5.5 10.326h-4.21V3.113l3.977-.027c3.62-.028 5.43 1.234 5.43 4.128 0 3.113-2.248 4.292-5.197 4.292zM3.73 17.61h3.525V24H3.73Z"/></g>
+<g id="li-superhuman" fill="currentColor"><path d="M19.813 5.337C19.594 2.58 17.4 0.392 14.645 0.178C11.547 -0.062 8.435 -0.06 5.337 0.187C2.58 0.405 0.392 2.598 0.178 5.355C-0.062 8.453 -0.06 11.565 0.187 14.663C0.406 17.42 2.6 19.608 5.355 19.822C8.454 20.062 11.565 20.06 14.663 19.813C17.42 19.594 19.608 17.4 19.822 14.645C20.062 11.546 20.06 8.435 19.813 5.337M10.024 3.187C11.14 3.187 12.043 4.089 12.043 5.201C12.043 6.313 11.14 7.214 10.024 7.214C8.909 7.214 8.005 6.313 8.005 5.201C8.005 4.089 8.909 3.187 10.024 3.187M13.834 16.453L13.836 16.453L10.331 14.534C10.14 14.429 9.908 14.429 9.718 14.534L6.213 16.453C5.649 16.762 5.034 16.136 5.359 15.585L9.477 8.608C9.721 8.192 10.326 8.192 10.57 8.608L14.688 15.585C15.013 16.136 14.4 16.762 13.834 16.453Z"/></g>
+<g id="li-mercury" fill="currentColor"><path d="M 252.783 0.024 C 251.925 0 251.066 0 250.208 0 C 249.349 0 248.492 0 247.634 0.024 C 111.485 1.381 1.357 111.402 0 247.423 C 0.555 225.867 8.45 205.146 22.378 188.686 C 44.159 107.902 107.981 44.141 188.843 22.38 C 208.158 17.176 228.06 14.464 248.064 14.309 C 248.779 14.285 249.494 14.285 250.208 14.285 C 250.921 14.285 251.639 14.285 252.353 14.309 C 285.265 15.166 313.339 35.713 325.206 64.571 C 327.551 70.27 329.231 76.222 330.21 82.307 C 330.891 86.582 331.234 90.905 331.235 95.235 C 331.259 112.946 325.437 130.17 314.674 144.235 C 318.758 146.717 322.689 149.445 326.445 152.4 C 338.863 135.932 345.565 115.861 345.535 95.235 C 345.535 93.734 345.492 92.233 345.428 90.733 C 371.707 106.547 393.695 128.578 409.461 154.886 C 407.873 154.818 406.285 154.77 404.696 154.77 C 384.058 154.738 363.969 161.433 347.476 173.841 C 343.639 176.716 340.029 179.884 336.681 183.316 C 327.41 192.712 320.209 203.946 315.542 216.294 L 315.542 216.317 C 311.441 227.075 309.349 238.494 309.371 250.006 C 309.371 282.473 283.247 308.933 250.887 309.519 L 250.231 309.517 C 217.369 309.517 190.653 282.826 190.653 249.996 C 190.674 261.507 188.582 272.927 184.482 283.684 L 184.482 283.709 C 191.568 297.432 202.755 308.609 216.486 315.683 L 216.51 315.683 C 226.943 321.038 238.504 323.821 250.231 323.802 C 270.43 323.777 289.905 331.331 304.805 344.968 C 308.413 348.266 311.722 351.875 314.696 355.753 C 325.461 369.818 331.283 387.041 331.259 404.751 C 331.257 409.008 330.926 413.258 330.269 417.465 C 330.11 417.54 329.953 417.616 329.793 417.691 C 315.932 424.301 301.301 429.155 286.237 432.137 C 307.318 404.418 290.487 364.273 255.94 359.876 C 254.047 359.635 252.141 359.514 250.232 359.514 C 231.08 359.531 212.26 354.514 195.657 344.966 C 183.15 337.727 172.173 328.119 163.341 316.682 C 159.993 320.114 156.383 323.283 152.546 326.156 C 158.775 334.165 165.981 341.364 173.995 347.585 C 177.751 350.542 181.682 353.27 185.767 355.753 C 205.192 367.57 227.495 373.813 250.232 373.8 C 274.059 373.8 288.95 399.593 277.037 420.227 C 271.508 429.803 261.291 435.703 250.232 435.703 C 251.888 435.703 253.537 435.682 255.182 435.639 C 253.392 435.691 251.595 435.715 249.791 435.715 C 225.966 435.782 211.001 410.031 222.858 389.363 C 228.39 379.718 238.672 373.781 249.791 373.812 C 239.916 373.819 230.074 372.643 220.477 370.312 C 193.955 392.876 201.805 435.691 234.607 447.377 C 239.481 449.115 244.617 450.002 249.791 450.002 C 275.497 450.035 300.966 445.086 324.789 435.43 C 330.81 433.01 336.704 430.284 342.448 427.265 C 378.645 408.293 408.212 378.754 427.219 342.576 C 421.399 343.973 415.463 344.826 409.487 345.123 C 393.721 371.432 371.73 393.463 345.452 409.279 C 345.516 407.771 345.557 406.261 345.557 404.754 C 345.588 384.128 338.885 364.057 326.468 347.588 L 326.312 347.379 C 334.209 341.211 341.315 334.091 347.468 326.183 C 363.958 338.585 384.041 345.275 404.673 345.243 C 406.27 345.243 407.866 345.194 409.462 345.124 C 415.439 344.826 421.375 343.973 427.193 342.576 C 468.956 332.395 498.757 295.546 499.975 252.578 C 500 251.723 500 250.866 500 250.01 L 500 250.003 C 500 249.148 500 248.291 499.975 247.435 C 498.623 111.865 389.221 2.123 253.696 0.052 Z M 336.681 316.695 C 330.931 324.158 324.248 330.853 316.797 336.617 C 307.426 327.441 296.25 320.311 283.978 315.682 L 283.954 315.682 L 283.727 315.596 C 297.373 308.515 308.488 297.379 315.543 283.719 L 315.543 283.695 C 320.901 273.275 323.689 261.723 323.67 250.004 C 323.647 229.818 331.209 210.359 344.855 195.483 C 348.157 191.879 351.77 188.572 355.652 185.602 C 369.737 174.845 386.975 169.03 404.698 169.055 C 409.023 169.056 413.341 169.398 417.613 170.075 L 417.615 170.078 C 424.302 184.073 429.193 198.857 432.171 214.079 C 404.471 192.927 364.26 209.692 359.791 244.257 C 359.546 246.163 359.42 248.083 359.418 250.004 C 359.433 269.143 354.412 287.946 344.857 304.528 C 342.404 308.76 339.673 312.824 336.681 316.695 Z M 404.696 219.054 C 421.277 219.046 434.922 232.1 435.65 248.665 C 435.653 249.112 435.655 249.559 435.655 250.006 C 435.634 273.856 409.802 288.739 389.158 276.796 C 379.932 271.459 374.097 261.753 373.711 251.101 C 373.713 250.738 373.716 250.371 373.716 250.006 C 373.724 232.903 387.594 219.046 404.696 219.054 Z M 355.651 314.409 C 362.3 303.539 367.212 291.697 370.207 279.312 C 392.821 305.841 435.674 297.941 447.342 265.092 C 449.062 260.248 449.945 255.146 449.953 250.006 C 449.985 224.321 445.032 198.875 435.369 175.077 C 432.944 169.062 430.216 163.174 427.194 157.436 C 408.278 121.431 378.901 91.999 342.932 73.015 L 342.866 72.735 C 338.089 53.145 327.212 35.58 311.803 22.573 C 392.347 44.507 455.876 108.137 477.598 188.698 C 482.807 207.993 485.521 227.877 485.676 247.862 C 485.701 248.577 485.701 249.292 485.701 250.006 C 485.701 250.72 485.701 251.433 485.676 252.148 C 484.818 285.028 464.251 313.074 435.369 324.933 C 429.662 327.275 423.704 328.952 417.614 329.932 C 413.333 330.611 409.007 330.953 404.673 330.956 C 386.957 330.981 369.726 325.17 355.643 314.421 Z M 315.518 216.315 L 315.518 216.291 C 308.432 202.566 297.245 191.39 283.514 184.316 L 283.49 184.316 C 273.057 178.961 261.496 176.177 249.769 176.197 C 229.57 176.222 210.095 168.669 195.194 155.031 C 191.586 151.733 188.277 148.123 185.303 144.246 C 174.539 130.181 168.717 112.958 168.741 95.246 C 168.742 90.99 169.074 86.739 169.731 82.534 L 170.206 82.308 C 184.067 75.697 198.699 70.844 213.762 67.861 C 192.681 95.581 209.514 135.727 244.062 140.124 C 245.954 140.364 247.86 140.485 249.767 140.485 C 268.919 140.468 287.739 145.484 304.342 155.032 C 316.849 162.271 327.826 171.878 336.658 183.316 C 340.006 179.884 343.615 176.716 347.453 173.841 C 341.224 165.833 334.018 158.634 326.004 152.413 C 322.247 149.456 318.317 146.729 314.232 144.246 C 294.807 132.429 272.504 126.186 249.767 126.199 C 225.94 126.266 210.977 100.515 222.832 79.847 C 228.365 70.201 238.647 64.264 249.767 64.296 C 248.101 64.296 246.441 64.318 244.784 64.361 C 246.586 64.309 248.394 64.283 250.208 64.283 C 274.034 64.217 288.997 89.969 277.142 110.636 C 271.609 120.282 261.328 126.218 250.208 126.187 C 260.084 126.181 269.924 127.356 279.522 129.687 C 306.045 107.124 298.196 64.31 265.395 52.621 C 260.52 50.885 255.383 49.997 250.208 49.998 C 224.502 49.964 199.034 54.913 175.211 64.569 C 169.19 66.99 163.295 69.716 157.551 72.735 C 121.355 91.707 91.788 121.246 72.782 157.424 C 78.601 156.027 84.537 155.174 90.513 154.877 C 106.279 128.568 128.27 106.536 154.55 90.72 C 154.483 92.229 154.441 93.738 154.441 95.246 C 154.41 115.872 161.114 135.943 173.531 152.412 L 173.688 152.62 C 165.791 158.789 158.685 165.908 152.532 173.817 C 136.041 161.415 115.959 154.726 95.327 154.758 C 93.73 154.758 92.134 154.806 90.536 154.877 C 84.56 155.174 78.624 156.027 72.806 157.424 C 31.044 167.606 1.244 204.454 0.025 247.423 C 0 248.279 0 249.137 0 249.993 C 0 250.849 0 251.707 0.025 252.565 C 1.379 388.136 110.782 497.879 246.31 499.947 L 247.217 499.975 C 248.075 500 248.934 500 249.793 500 C 250.651 500 251.508 500 252.366 499.975 C 388.515 498.618 498.642 388.598 500 252.575 C 499.445 274.132 491.55 294.853 477.621 311.313 C 455.841 392.098 392.018 455.857 311.157 477.619 C 291.842 482.823 271.94 485.535 251.936 485.691 C 251.222 485.714 250.506 485.714 249.793 485.714 C 249.078 485.714 248.361 485.714 247.647 485.691 C 214.736 484.834 186.661 464.286 174.794 435.429 C 172.448 429.729 170.769 423.777 169.789 417.692 C 169.109 413.416 168.766 409.093 168.765 404.764 C 168.74 387.054 174.563 369.83 185.326 355.765 C 181.242 353.282 177.311 350.555 173.554 347.598 C 161.137 364.066 154.434 384.138 154.465 404.764 C 154.465 406.263 154.507 407.765 154.572 409.265 C 128.294 393.45 106.305 371.421 90.539 345.114 C 92.127 345.182 93.715 345.229 95.304 345.229 C 115.944 345.262 136.031 338.567 152.524 326.158 C 156.362 323.283 159.971 320.115 163.319 316.683 C 172.59 307.286 179.791 296.053 184.458 283.705 L 184.458 283.682 C 188.559 272.924 190.651 261.505 190.63 249.993 C 190.63 217.526 216.753 191.066 249.113 190.48 L 249.769 190.481 C 282.632 190.481 309.347 217.173 309.347 250.003 C 309.326 238.492 311.418 227.073 315.518 216.315 Z M 157.067 426.985 C 121.099 408.001 91.722 378.568 72.806 342.563 C 69.784 336.825 67.056 330.937 64.632 324.921 C 54.968 301.124 50.015 275.677 50.047 249.993 C 50.074 215.144 87.817 193.392 117.984 210.841 C 122.453 213.425 126.447 216.756 129.793 220.687 C 132.788 208.302 137.699 196.46 144.349 185.59 L 144.356 185.577 C 130.273 174.829 113.043 169.018 95.327 169.044 C 90.993 169.046 86.667 169.388 82.386 170.067 C 76.296 171.047 70.338 172.724 64.631 175.066 C 35.749 186.925 15.181 214.971 14.324 247.851 C 14.299 248.565 14.299 249.279 14.299 249.993 C 14.299 250.708 14.299 251.423 14.324 252.137 C 14.479 272.123 17.193 292.007 22.402 311.303 C 44.125 391.862 107.653 455.493 188.198 477.426 C 172.789 464.419 161.911 446.854 157.135 427.264 Z M 82.387 329.923 C 86.66 330.601 90.978 330.942 95.304 330.944 C 113.026 330.967 130.263 325.153 144.349 314.396 C 148.23 311.425 151.843 308.119 155.144 304.515 C 168.792 289.639 176.353 270.18 176.331 249.993 C 176.312 238.275 179.099 226.723 184.458 216.302 L 184.458 216.278 C 191.512 202.619 202.628 191.483 216.273 184.403 L 216.047 184.317 L 216.022 184.317 C 203.751 179.686 192.576 172.557 183.204 163.381 C 171.869 172.169 162.342 183.065 155.145 195.47 C 145.59 212.051 140.568 230.856 140.585 249.993 C 140.57 284.832 102.849 306.59 72.685 289.159 C 70.999 288.184 69.377 287.102 67.829 285.918 C 70.807 301.14 75.699 315.924 82.386 329.92 Z M 64.351 251.334 C 65.409 275.16 91.863 288.907 111.968 276.077 C 120.877 270.392 126.273 260.559 126.284 249.993 C 126.284 249.628 126.285 249.262 126.289 248.899 C 125.425 225.064 99.084 211.104 78.874 223.768 C 69.843 229.428 64.355 239.334 64.346 249.993 C 64.346 250.442 64.347 250.888 64.351 251.334 Z"/></g>
+<g id="li-segment" fill="currentColor" transform="matrix(.768307 0 0 .768307 0 2.304922)"><path d="M51.9 52.8H4c-2.2 0-4-1.8-4-4s1.8-4 4-4h47.9c2.2 0 4 1.8 4 4s-1.8 4-4 4z"/><path d="M41.7 77.3c-3.9 0-7.8-.6-11.5-1.7-2.1-.7-3.3-2.9-2.6-5s2.9-3.3 5-2.6c2.9.9 6 1.4 9.1 1.4 13.6 0 25.4-8.7 29.3-21.7.6-2.1 2.9-3.3 5-2.7s3.3 2.9 2.7 5c-5.1 16.3-19.9 27.3-37 27.3z"/><path d="M79.3 32.5H31.4c-2.2 0-4-1.8-4-4s1.8-4 4-4h47.9c2.2 0 4 1.8 4 4s-1.8 4-4 4z"/><path d="M8.5 32.5c-.4 0-.8-.1-1.2-.2-2.1-.6-3.3-2.9-2.7-5C9.7 11 24.5 0 41.7 0c3.9 0 7.8.6 11.5 1.7 2.1.7 3.3 2.9 2.6 5s-2.9 3.3-5 2.6c-2.9-.9-6-1.4-9.1-1.4-13.6 0-25.4 8.7-29.3 21.7-.6 1.8-2.2 2.9-3.9 2.9z"/></g>
+<g id="li-ramp" fill="currentColor"><path d="M5.098 6.736c-1.768 0-2.636 1.57-2.636 3.669v5.256H-.032V4.568h2.45v2.878h.042c.524-1.77 1.565-3.2 3.174-3.2 1.132 0 1.607.399 1.607.399L6.116 6.93s-.358-.194-1.018-.194M35.237 8.26v7.401h-2.428v-6.5c0-1.865-.58-2.853-2.064-2.853s-2.28 1.251-2.28 3.647v5.706h-2.407v-6.5c0-1.794-.574-2.853-2.043-2.853-1.676 0-2.321 1.48-2.321 3.647v5.706h-2.45V4.568h2.45V7.08h.022c.38-1.737 1.424-2.811 3.182-2.811s2.878.943 3.31 2.62c.41-1.613 1.504-2.62 3.182-2.62 2.341 0 3.847 1.479 3.847 3.99M12.141 4.249c-2.255 0-3.728 1.067-4.4 2.993l2.074.762c.378-1.162 1.167-1.823 2.37-1.823 1.355 0 2.149.602 2.149 1.523 0 .922-.633 1.14-2.064 1.374-1.59.258-5.375.344-5.375 3.56 0 1.886 1.562 3.304 3.911 3.304 1.765 0 2.97-.728 3.526-2.082h.022v1.804h2.428V8.842c0-2.986-1.491-4.59-4.643-4.59zm2.257 6.19c0 2.328-1.142 3.822-2.966 3.822-1.29 0-2.065-.73-2.065-1.782 0-.988.796-1.671 2.322-1.954 1.56-.29 2.346-.646 2.707-1.501v1.418zm29.48-6.17c-1.857 0-3.086 1.03-3.61 2.575V4.568h-2.579V19.93h2.557v-6.547h.022c.569 1.676 1.755 2.598 3.61 2.598 2.944 0 5.05-2.445 5.05-5.9 0-3.431-2.106-5.812-5.05-5.812m-.636 9.655c-2.04 0-3.17-1.492-3.17-3.81 0-2.316 1.267-3.808 3.17-3.808s3.17 1.563 3.17 3.809-1.266 3.809-3.17 3.809M70.028 15.612v.07h-9.983v-.07c1.439-.82 2.432-1.654 3.327-2.526h4.1zm-2.473-13.11L65.027 0h-.074s.042 4.664-4.205 8.906c-4.156 4.15-9.046 4.16-9.046 4.16v.074l2.578 2.546s4.819.05 9.074-4.16c4.24-4.195 4.205-9.022 4.205-9.022z"/></g>
+</defs>
+</svg>
+
+<!-- ================================================== top nav -->
+<header class="topnav">
+  <div class="container inner">
+    <a class="wordmark" href="#top" aria-label="Linear — home">
+      <span class="mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 100 100" fill="currentColor">
+          <path d="M1.225 61.523c-.222-.949.908-1.546 1.597-.857l36.512 36.512c.69.69.092 1.82-.857 1.597-18.425-4.323-32.93-18.827-37.252-37.252M.002 46.889a1 1 0 0 0 .29.76L52.35 99.71c.201.2.478.307.76.29 2.37-.149 4.695-.46 6.963-.927.765-.157 1.03-1.096.478-1.648L2.576 39.448c-.552-.551-1.491-.286-1.648.479a50 50 0 0 0-.926 6.962M4.21 29.705a.99.99 0 0 0 .208 1.1l64.776 64.776a.99.99 0 0 0 1.1.208 50 50 0 0 0 5.185-2.684.98.98 0 0 0 .183-1.54L8.436 24.336a.98.98 0 0 0-1.541.183 50 50 0 0 0-2.684 5.185m8.448-11.631a.986.986 0 0 1-.045-1.354C21.78 6.46 35.111 0 49.952 0 77.592 0 100 22.407 100 50.048c0 14.84-6.46 28.172-16.72 37.338a.986.986 0 0 1-1.354-.045z"/>
+        </svg>
+      </span>
+      Linear
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#tokens">Design system</a></li>
+      <li><a href="#type">Type scale</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#product">Product</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="btn btn-tertiary">Sign in</button>
+      <button class="btn btn-primary" data-open-palette>Start free</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================================================== hero -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <span class="hero-badge reveal" role="img" aria-label="New — dark theme">
+        <span class="dot"></span>
+        New · dark theme
+        <span class="t-mono">v2.4</span>
+      </span>
+      <h1 class="t-display-xl reveal d1">Premium dark interfaces,<br><span class="dim">refined by restraint.</span></h1>
+      <p class="t-body-lg reveal d2">
+        A near-black canvas, hairline borders, and one lavender-blue accent spent scarcely.
+      </p>
+      <div class="cta-row reveal d3">
+        <button class="btn btn-primary">Start building</button>
+        <button class="btn btn-secondary">View the tokens</button>
+      </div>
+
+      <!-- the product is the protagonist (SKILL §7) — no .reveal:
+           the app window must never sit invisible below the fold -->
+      <div class="hero-mock">
+        <div class="bar">
+          <div class="crumb">
+            <span style="color:var(--lin-ink-muted);">Acme Inc</span>
+            <span class="sep">/</span>
+            <span>Product</span>
+          </div>
+          <span class="spacer"></span>
+          <div class="search">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+            <span>Search or jump to…</span>
+            <kbd>⌘ + K</kbd>
+          </div>
+          <div class="avatar-stack">
+            <span class="avatar tinted" style="width:20px;height:20px;font-size:9px;">AK</span>
+            <span class="avatar" style="width:20px;height:20px;font-size:9px;">JL</span>
+            <span class="avatar" style="width:20px;height:20px;font-size:9px;">SM</span>
+          </div>
+        </div>
+        <div class="cols">
+          <div class="side">
+            <div class="ws"><span class="mark"></span>Acme Inc</div>
+            <div class="item active"><span>Inbox</span><span class="count">12</span></div>
+            <div class="item"><span>My issues</span><span class="count">4</span></div>
+            <div class="item"><span>Done</span><span class="count">32</span></div>
+            <div class="label">Projects</div>
+            <div class="item"><span>Product</span><span class="count">▸</span></div>
+            <div class="item"><span>Design</span><span class="count">▸</span></div>
+            <div class="item"><span>Engineering</span><span class="count">▸</span></div>
+            <div class="label">Team</div>
+            <div class="item"><span>Members</span><span class="count">8</span></div>
+            <div class="item"><span>Settings</span><span class="count">⚙</span></div>
+          </div>
+          <div class="main">
+            <div class="h">
+              <span class="t">Product · Sprint 24</span>
+              <button class="btn btn-primary" style="padding:4px 10px; font-size:12px;">+ New issue</button>
+            </div>
+            <div class="row">
+              <span class="dot urgent"></span>
+              <span class="id">PRO-482</span>
+              <span class="title"><strong>Dark mode contrast pass</strong> — hairlines on surface-3</span>
+              <span class="badge">In Progress</span>
+            </div>
+            <div class="row">
+              <span class="dot done"></span>
+              <span class="id">PRO-471</span>
+              <span class="title"><strong>Keyboard navigation</strong> — ⌘K palette ships</span>
+              <span class="badge" style="color:var(--lin-success);">Done</span>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="id">PRO-468</span>
+              <span class="title"><strong>Cycles</strong> — auto-archived summaries</span>
+              <span class="badge">Backlog</span>
+            </div>
+            <div class="row">
+              <span class="dot urgent"></span>
+              <span class="id">PRO-461</span>
+              <span class="title"><strong>API tokens</strong> — rotate on transfer</span>
+              <span class="badge">Todo</span>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="id">PRO-476</span>
+              <span class="title"><strong>⌘K palette</strong> — fuzzy search ships</span>
+              <span class="badge">Todo</span>
+            </div>
+            <div class="row">
+              <span class="dot done"></span>
+              <span class="id">PRO-455</span>
+              <span class="title"><strong>Docs</strong> — page-tree breadcrumbs</span>
+              <span class="badge" style="color:var(--lin-success);">Done</span>
+            </div>
+            <div class="row">
+              <span class="dot urgent"></span>
+              <span class="id">PRO-452</span>
+              <span class="title"><strong>Notifications</strong> — grouped digest mode</span>
+              <span class="badge">In Progress</span>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="id">PRO-449</span>
+              <span class="title"><strong>Importers</strong> — Jira &amp; Asana paths</span>
+              <span class="badge">Backlog</span>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="id">PRO-443</span>
+              <span class="title"><strong>Triage</strong> — auto-suggest labels</span>
+              <span class="badge">Todo</span>
+            </div>
+            <div class="row">
+              <span class="dot done"></span>
+              <span class="id">PRO-438</span>
+              <span class="title"><strong>Onboarding</strong> — invite teammates</span>
+              <span class="badge" style="color:var(--lin-success);">Done</span>
+            </div>
+            <div class="row">
+              <span class="dot"></span>
+              <span class="id">PRO-431</span>
+              <span class="title"><strong>Mobile</strong> — push previews</span>
+              <span class="badge">Backlog</span>
+            </div>
+            <div class="row">
+              <span class="dot urgent"></span>
+              <span class="id">PRO-427</span>
+              <span class="title"><strong>Audit log</strong> — CSV export</span>
+              <span class="badge">Todo</span>
+            </div>
+          </div>
+        </div>
+        <div class="statusbar">
+          <span>Product · Sprint 24</span>
+          <div class="right">
+            <span>9 open · 3 done</span>
+            <span style="color:var(--lin-hairline-strong);">|</span>
+            <span>⌘ + K search</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="meta-line reveal d3">
+        <span class="t-mono">canvas #010102</span>
+        <span class="t-mono" style="color:var(--lin-hairline-strong);">·</span>
+        <span class="t-mono">accent #5e6ad2</span>
+        <span class="t-mono" style="color:var(--lin-hairline-strong);">·</span>
+        <span class="t-mono">display −3.0px</span>
+        <span class="t-mono" style="color:var(--lin-hairline-strong);">·</span>
+        <span class="t-mono">radius md 8px</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== trusted by -->
+  <div class="logo-strip">
+    <p class="label reveal"><span class="dot"></span>Trusted by teams that ship</p>
+    <div class="marquee reveal d1">
+      <div class="marquee-track">
+        <div class="marquee-group">
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-vercel"/></svg>
+            Vercel
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-raycast"/></svg>
+            Raycast
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-notion"/></svg>
+            Notion
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-figma"/></svg>
+            Figma
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><use href="#li-superhuman"/></svg>
+            Superhuman
+          </span>
+          <span class="logo-item">
+            <svg width="85" height="24" viewBox="0 0 71 20" fill="currentColor" aria-hidden="true"><use href="#li-ramp"/></svg>
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-framer"/></svg>
+            Framer
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><use href="#li-segment"/></svg>
+            Segment
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-anthropic"/></svg>
+            Anthropic
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-arc"/></svg>
+            Arc
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-loom"/></svg>
+            Loom
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-caldotcom"/></svg>
+            Cal.com
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-pagerduty"/></svg>
+            PagerDuty
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 500 500" fill="currentColor" aria-hidden="true"><use href="#li-mercury"/></svg>
+            Mercury
+          </span>
+        </div>
+        <div class="marquee-group" aria-hidden="true">
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-vercel"/></svg>
+            Vercel
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-raycast"/></svg>
+            Raycast
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-notion"/></svg>
+            Notion
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-figma"/></svg>
+            Figma
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><use href="#li-superhuman"/></svg>
+            Superhuman
+          </span>
+          <span class="logo-item">
+            <svg width="85" height="24" viewBox="0 0 71 20" fill="currentColor" aria-hidden="true"><use href="#li-ramp"/></svg>
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-framer"/></svg>
+            Framer
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><use href="#li-segment"/></svg>
+            Segment
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-anthropic"/></svg>
+            Anthropic
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-arc"/></svg>
+            Arc
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-loom"/></svg>
+            Loom
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-caldotcom"/></svg>
+            Cal.com
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><use href="#li-pagerduty"/></svg>
+            PagerDuty
+          </span>
+          <span class="logo-item">
+            <svg width="24" height="24" viewBox="0 0 500 500" fill="currentColor" aria-hidden="true"><use href="#li-mercury"/></svg>
+            Mercury
+          </span>
+        </div>
+      </div>
+    </div>
+    <p class="note reveal d2">10,000+ product teams — from two-person startups to the Fortune 500.</p>
+  </div>
+
+  <!-- ================================================== tokens -->
+  <section id="tokens">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">01</span>Color tokens</p>
+        <h2 class="t-display-lg">The ladder, the hairlines,<br>the ink scale.</h2>
+      </div>
+      <div class="token-grid">
+
+        <div class="card hoverable token-group reveal">
+          <h3 class="t-card-title">Canvas &amp; surfaces</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="chip" style="background:#010102; border-color:#1d1e23;"></div>
+              <div class="name">canvas</div>
+              <div class="hex">#010102</div>
+              <div class="role">page background</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#0f1011;"></div>
+              <div class="name">surface-1</div>
+              <div class="hex">#0f1011</div>
+              <div class="role">cards, panels</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#141516;"></div>
+              <div class="name">surface-2</div>
+              <div class="hex">#141516</div>
+              <div class="role">featured, hover</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#18191a;"></div>
+              <div class="name">surface-3</div>
+              <div class="hex">#18191a</div>
+              <div class="role">sub-nav, menus</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#191a1b;"></div>
+              <div class="name">surface-4</div>
+              <div class="hex">#191a1b</div>
+              <div class="role">deepest lift</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hoverable token-group reveal d1">
+          <h3 class="t-card-title">Hairlines</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="chip" style="background:#23252a;"></div>
+              <div class="name">hairline</div>
+              <div class="hex">#23252a</div>
+              <div class="role">1px card borders</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#34343a;"></div>
+              <div class="name">hairline-strong</div>
+              <div class="hex">#34343a</div>
+              <div class="role">strong borders</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#3e3e44;"></div>
+              <div class="name">hairline-tertiary</div>
+              <div class="hex">#3e3e44</div>
+              <div class="role">nested surfaces</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hoverable token-group reveal">
+          <h3 class="t-card-title">Ink scale</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="chip" style="background:#f7f8f8;"></div>
+              <div class="name">ink</div>
+              <div class="hex">#f7f8f8</div>
+              <div class="role">headlines</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#d0d6e0;"></div>
+              <div class="name">ink-muted</div>
+              <div class="hex">#d0d6e0</div>
+              <div class="role">secondary type</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#8a8f98;"></div>
+              <div class="name">ink-subtle</div>
+              <div class="hex">#8a8f98</div>
+              <div class="role">tertiary type</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#62666d;"></div>
+              <div class="name">ink-tertiary</div>
+              <div class="hex">#62666d</div>
+              <div class="role">disabled, footnotes</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hoverable token-group reveal d1">
+          <h3 class="t-card-title">Accent &amp; semantic</h3>
+          <div class="swatches">
+            <div class="swatch">
+              <div class="chip" style="background:#5e6ad2;"></div>
+              <div class="name">primary</div>
+              <div class="hex">#5e6ad2</div>
+              <div class="role">CTA, focus, links</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#828fff;"></div>
+              <div class="name">primary-hover</div>
+              <div class="hex">#828fff</div>
+              <div class="role">CTA hover</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#5e69d1;"></div>
+              <div class="name">primary-focus</div>
+              <div class="hex">#5e69d1</div>
+              <div class="role">focus ring</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#27a644;"></div>
+              <div class="name">success</div>
+              <div class="hex">#27a644</div>
+              <div class="role">the only semantic</div>
+            </div>
+            <div class="swatch">
+              <div class="chip" style="background:#000000; border-color:#1d1e23;"></div>
+              <div class="name">overlay</div>
+              <div class="hex">#000000</div>
+              <div class="role">modal scrim</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== typography -->
+  <section id="type">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">02</span>Typography</p>
+        <h2 class="t-display-lg">Display 600, body 400,<br>negative tracking.</h2>
+      </div>
+      <div class="card type-specimen reveal">
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">display-xl</span>
+            <span class="spec">80px · 600 · 1.05 · −3.0px</span>
+          </div>
+          <div class="sample t-display-xl">Where craft meets software</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">display-lg</span>
+            <span class="spec">56px · 600 · 1.10 · −1.8px</span>
+          </div>
+          <div class="sample t-display-lg">The design system behind Linear</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">display-md</span>
+            <span class="spec">40px · 600 · 1.15 · −1.0px</span>
+          </div>
+          <div class="sample t-display-md">Built for teams that ship</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">headline</span>
+            <span class="spec">28px · 600 · 1.20 · −0.6px</span>
+          </div>
+          <div class="sample t-headline">Pricing that scales with you</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">card-title</span>
+            <span class="spec">22px · 500 · 1.25 · −0.4px</span>
+          </div>
+          <div class="sample t-card-title">Screenshot panels as protagonists</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">subhead</span>
+            <span class="spec">20px · 400 · 1.40 · −0.2px</span>
+          </div>
+          <div class="sample t-subhead">A single accent, spent scarcely.</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">body-lg</span>
+            <span class="spec">18px · 400 · 1.50 · −0.1px</span>
+          </div>
+          <div class="sample t-body-lg">The premium read comes from restraint — a four-step surface ladder, hairline borders, dense type.</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">body</span>
+            <span class="spec">16px · 400 · 1.50 · −0.05px</span>
+          </div>
+          <div class="sample t-body">The canvas is never pure black: the faint blue tint is intentional. Depth comes from the ladder, not shadows.</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">body-sm</span>
+            <span class="spec">14px · 400 · 1.50 · 0</span>
+          </div>
+          <div class="sample t-body-sm">Secondary copy, captions, and card bodies keep the interface quiet so the product does the talking.</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">caption</span>
+            <span class="spec">12px · 400 · 1.40 · 0</span>
+          </div>
+          <div class="sample t-caption">META · STATUS · TIMESTAMPS · FOOTNOTES</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">eyebrow</span>
+            <span class="spec">13px · 500 · 1.30 · +0.4px</span>
+          </div>
+          <div class="sample t-eyebrow" style="text-transform:uppercase;">The eyebrow — positive tracking marks taxonomy</div>
+        </div>
+
+        <div class="type-row">
+          <div class="meta">
+            <span class="t-mono">mono</span>
+            <span class="spec">13px · 400 · 1.50 · 0</span>
+          </div>
+          <div class="sample t-mono">ENG-1243 · a1b2c3d4 · npm run build</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== components -->
+  <section id="components">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">03</span>Components</p>
+        <h2 class="t-display-lg">8px buttons, 8px inputs.<br>Pills only for tabs.</h2>
+      </div>
+      <div class="comp-grid">
+
+        <div class="card reveal">
+          <h3 class="t-card-title">Buttons</h3>
+          <p class="desc t-body-sm">8px radius · 8×14 padding · 14/500. Hover brightens, press dims — no shadows.</p>
+          <div class="btn-row">
+            <button class="btn btn-primary">Get started</button>
+            <button class="btn btn-primary" style="background:var(--lin-primary-hover);">Hover state</button>
+            <button class="btn btn-secondary">Open issue</button>
+            <button class="btn btn-tertiary">Cancel</button>
+            <button class="btn btn-inverse">Inverse</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <div class="card reveal d1">
+          <h3 class="t-card-title">Pricing tabs</h3>
+          <p class="desc t-body-sm">Pills, not buttons — selection is a surface lift, never the accent.</p>
+          <div class="btn-row">
+            <button class="pill pill-tab">Monthly</button>
+            <button class="pill pill-tab selected">Yearly −20%</button>
+            <button class="pill pill-tab">Quarterly</button>
+          </div>
+          <h3 class="t-card-title" style="margin-top:var(--lin-space-4);">Status badges</h3>
+          <div class="btn-row">
+            <span class="badge">Backlog</span>
+            <span class="badge">In Progress</span>
+            <span class="badge">In Review</span>
+            <span class="badge" style="color:var(--lin-success);">Done</span>
+          </div>
+        </div>
+
+        <div class="card reveal d2">
+          <h3 class="t-card-title">Cards</h3>
+          <p class="desc t-body-sm">surface-1 + 1px hairline + 12px radius; featured lifts to surface-2 with a strong hairline.</p>
+          <div style="display:flex; gap:var(--lin-space-3); flex-wrap:wrap;">
+            <div class="card" style="padding:var(--lin-space-4); flex:1; min-width:140px;">
+              <p class="t-card-title" style="font-size:16px;">Default</p>
+              <p class="t-body-sm ink-subtle">surface-1</p>
+            </div>
+            <div class="card featured" style="padding:var(--lin-space-4); flex:1; min-width:140px;">
+              <p class="t-card-title" style="font-size:16px;">Featured</p>
+              <p class="t-body-sm ink-subtle">surface-2</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="t-card-title">Inputs</h3>
+          <p class="desc t-body-sm">surface-1 · 8px radius · 8×12 padding; focus = 2px primary-focus ring at 50%.</p>
+          <div class="field">
+            <label for="demo-input">Workspace name</label>
+            <input class="input" id="demo-input" type="text" placeholder="acme-inc">
+          </div>
+          <div class="field">
+            <label>Focused state</label>
+            <input class="input is-focused" type="text" value="linear-design" aria-label="Focused demo input">
+          </div>
+          <div class="field">
+            <label>Disabled</label>
+            <input class="input" type="text" value="Read-only workspace" disabled>
+          </div>
+        </div>
+
+        <div class="card reveal d1">
+          <h3 class="t-card-title">Search &amp; keys</h3>
+          <p class="desc t-body-sm">Command-palette trigger, ⌘K style — a Linear signature.</p>
+          <div class="mock-search" style="min-width:0; width:100%; cursor:default;">
+            <span>Search issues…</span>
+            <kbd>⌘ + K</kbd>
+          </div>
+          <div class="btn-row" style="margin-top:var(--lin-space-3);">
+            <kbd>⌘ + K</kbd>
+            <kbd>esc</kbd>
+            <kbd>shift+j</kbd>
+            <kbd>↑</kbd>
+            <kbd>↓</kbd>
+            <kbd>↵</kbd>
+          </div>
+        </div>
+
+        <div class="card reveal d2">
+          <h3 class="t-card-title">Focus ring</h3>
+          <p class="desc t-body-sm">2px primary-focus at 50% opacity — the only place lavender frames an element.</p>
+          <div class="btn-row">
+            <button class="btn btn-secondary" style="outline:2px solid rgba(94,105,209,0.5); outline-offset:2px;">Keyboard focused</button>
+            <button class="btn btn-secondary">Resting</button>
+          </div>
+          <h3 class="t-card-title" style="margin-top:var(--lin-space-4);">Avatars</h3>
+          <div class="btn-row">
+            <div class="avatar-stack">
+              <span class="avatar tinted">AK</span>
+              <span class="avatar">JL</span>
+              <span class="avatar">SM</span>
+              <span class="avatar">+3</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== product mock -->
+  <section id="product">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">04</span>Product screenshot</p>
+        <h2 class="t-display-lg">The product is the protagonist,<br>framed in a 16px panel.</h2>
+      </div>
+      <!-- same guarantee as the hero mock: never opacity:0 below the fold -->
+      <div class="mock" id="mock">
+        <div class="mock-topbar">
+          <div class="left">
+            <div class="mock-crumb">
+              <span>Acme Inc</span>
+              <span class="sep">/</span>
+              <span>Product</span>
+              <span class="sep">/</span>
+              <span style="color:var(--lin-ink-muted);">Board</span>
+            </div>
+          </div>
+          <div class="mock-search" data-open-palette role="button" tabindex="0" aria-label="Open command palette">
+            <span>Search or jump to…</span>
+            <kbd>⌘ + K</kbd>
+          </div>
+          <div class="right">
+            <div class="avatar-stack">
+              <span class="avatar tinted">AK</span>
+              <span class="avatar">JL</span>
+              <span class="avatar">SM</span>
+            </div>
+            <button class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">Share</button>
+          </div>
+        </div>
+        <div class="mock-body">
+          <div class="mock-sidebar">
+            <div class="mock-workspace">
+              <span class="mark"></span>
+              Acme Inc
+              <span class="caret">▾</span>
+            </div>
+            <div class="mock-nav-item active"><span>Inbox</span><span class="count">12</span></div>
+            <div class="mock-nav-item"><span>My issues</span><span class="count">4</span></div>
+            <div class="mock-nav-item"><span>Created by me</span><span class="count">9</span></div>
+            <div class="mock-nav-item"><span>Done</span><span class="count">32</span></div>
+            <div class="mock-nav-label">Projects</div>
+            <div class="mock-nav-item"><span>Product</span><span class="count">▸</span></div>
+            <div class="mock-nav-item"><span>Design</span><span class="count">▸</span></div>
+            <div class="mock-nav-item"><span>Engineering</span><span class="count">▸</span></div>
+            <div class="mock-nav-label">Team</div>
+            <div class="mock-nav-item"><span>Members</span><span class="count">8</span></div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-main-head">
+              <h4>Product · Sprint 24</h4>
+              <div class="actions">
+                <button class="btn btn-secondary" style="padding:6px 12px; font-size:13px;">Filter</button>
+                <button class="btn btn-primary" style="padding:6px 12px; font-size:13px;">+ New issue</button>
+              </div>
+            </div>
+            <div class="board">
+              <div class="board-col">
+                <div class="board-col-head"><span>Backlog</span><span class="count">3</span></div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot"></span><span class="id">PRO-479</span></div>
+                  <div class="title"><strong>Onboarding</strong> — invite teammates from the empty state</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">onboarding</span><span class="label-tag tint">v2.4</span></div>
+                    <span class="avatar">JL</span>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot p-urgent"></span><span class="id">PRO-468</span></div>
+                  <div class="title"><strong>Cycles</strong> — surface auto-archived summaries</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">cycles</span></div>
+                    <span class="avatar tinted">AK</span>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot"></span><span class="id">PRO-455</span></div>
+                  <div class="title"><strong>Docs</strong> — page-tree breadcrumbs</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">docs</span></div>
+                    <span class="avatar">SM</span>
+                  </div>
+                </div>
+              </div>
+              <div class="board-col">
+                <div class="board-col-head"><span>Todo</span><span class="count">2</span></div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot p-urgent"></span><span class="id">PRO-461</span></div>
+                  <div class="title"><strong>API tokens</strong> — rotate on workspace transfer</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag tint">security</span></div>
+                    <span class="avatar">JL</span>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot"></span><span class="id">PRO-457</span></div>
+                  <div class="title"><strong>Triage</strong> — auto-suggest labels from history</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">triage</span></div>
+                    <span class="avatar tinted">AK</span>
+                  </div>
+                </div>
+              </div>
+              <div class="board-col">
+                <div class="board-col-head"><span>In Progress</span><span class="count">2</span></div>
+                <div class="issue-card" style="border-color:var(--lin-hairline-strong);">
+                  <div class="row1"><span class="dot p-urgent"></span><span class="id">PRO-482</span></div>
+                  <div class="title"><strong>Dark mode contrast pass</strong> — hairlines read too thin on surface-3</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag tint">design</span></div>
+                    <div class="avatar-stack"><span class="avatar tinted">AK</span><span class="avatar">SM</span></div>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot"></span><span class="id">PRO-476</span></div>
+                  <div class="title"><strong>⌘K palette</strong> — fuzzy search across issues &amp; docs</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag tint">v2.4</span></div>
+                    <span class="avatar">JL</span>
+                  </div>
+                </div>
+              </div>
+              <div class="board-col">
+                <div class="board-col-head"><span>Done</span><span class="count">3</span></div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot p-done"></span><span class="id">PRO-471</span></div>
+                  <div class="title"><strong>Keyboard navigation</strong> — full mouseless flow</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">a11y</span></div>
+                    <span class="avatar tinted">AK</span>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot p-done"></span><span class="id">PRO-464</span></div>
+                  <div class="title"><strong>Importers</strong> — Jira &amp; Asana migration paths</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">import</span></div>
+                    <span class="avatar">SM</span>
+                  </div>
+                </div>
+                <div class="issue-card">
+                  <div class="row1"><span class="dot p-done"></span><span class="id">PRO-459</span></div>
+                  <div class="title"><strong>Notifications</strong> — grouped digest mode</div>
+                  <div class="row3">
+                    <div class="labels"><span class="label-tag">notif</span></div>
+                    <span class="avatar">JL</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mock-statusbar">
+          <span>Product · Sprint 24</span>
+          <div class="right">
+            <span>6 open · 3 done</span>
+            <span style="color:var(--lin-hairline-strong);">|</span>
+            <span>↑↓ navigate</span>
+            <span style="color:var(--lin-hairline-strong);">|</span>
+            <span>⌘ + K search</span>
+          </div>
+        </div>
+      </div>
+      <p class="t-caption ink-tertiary reveal" style="margin-top:var(--lin-space-4);">
+        Mock issue tracker built from the skill's components — surface ladder, hairlines, mono IDs, pill statuses, tag chips. Priority dots use the documented palette only.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================================================== pricing -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">05</span>Pricing</p>
+        <h2 class="t-display-lg">One accent, three cards,<br>one featured.</h2>
+      </div>
+
+      <div class="billing-row reveal" role="tablist" aria-label="Billing period">
+        <button class="pill pill-tab selected" data-billing="monthly">Monthly</button>
+        <button class="pill pill-tab" data-billing="yearly">Yearly <span style="color:var(--lin-success);">−20%</span></button>
+      </div>
+
+      <div class="pricing-grid">
+
+        <div class="card hoverable reveal">
+          <h3 class="t-card-title">Starter</h3>
+          <div class="price">
+            <span class="amount" data-price="0">$0</span>
+            <span class="period t-caption">/ month</span>
+          </div>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Up to 3 projects</li>
+            <li><span class="check">✓</span> Unlimited issues</li>
+            <li><span class="check">✓</span> Community support</li>
+          </ul>
+          <button class="btn btn-secondary">Get started</button>
+        </div>
+
+        <div class="card featured reveal d1">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 class="t-card-title">Pro</h3>
+            <span class="badge accent">Most popular</span>
+          </div>
+          <div class="price">
+            <span class="amount" data-price-m="12" data-price-y="9">$12</span>
+            <span class="period t-caption">/ user / month</span>
+          </div>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> Unlimited projects</li>
+            <li><span class="check">✓</span> Cycles &amp; roadmaps</li>
+            <li><span class="check">✓</span> Linear integrations</li>
+            <li><span class="check">✓</span> Priority support</li>
+          </ul>
+          <button class="btn btn-primary">Start free trial</button>
+        </div>
+
+        <div class="card hoverable reveal d2">
+          <h3 class="t-card-title">Enterprise</h3>
+          <div class="price">
+            <span class="amount">Custom</span>
+          </div>
+          <ul class="feature-list">
+            <li><span class="check">✓</span> SSO &amp; SCIM</li>
+            <li><span class="check">✓</span> Audit logs</li>
+            <li><span class="check">✓</span> Dedicated success manager</li>
+          </ul>
+          <button class="btn btn-secondary">Contact sales</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== testimonials -->
+  <section id="customers">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="t-eyebrow"><span class="section-num">06</span>Customers</p>
+        <h2 class="t-display-lg">Trusted by teams<br>that care about craft.</h2>
+      </div>
+      <div class="testimonial-grid">
+        <figure class="testimonial reveal">
+          <blockquote class="quote">Linear is the only tool where the interface disappears and the work takes over. The density is perfect.</blockquote>
+          <figcaption class="author">
+            <span class="avatar lg tinted">AK</span>
+            <div>
+              <div class="name">Aiko Tanaka</div>
+              <div class="role">Head of Product, Raycast</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="testimonial reveal d1">
+          <blockquote class="quote">We moved three teams off legacy trackers in a week. Nothing else feels this fast or this considered.</blockquote>
+          <figcaption class="author">
+            <span class="avatar lg">JL</span>
+            <div>
+              <div class="name">Jonas Lindqvist</div>
+              <div class="role">CTO, Ramp</div>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="testimonial reveal d2">
+          <blockquote class="quote">The dark theme isn't a skin — it's the identity. Hairlines, ladder, restraint. It just reads expensive.</blockquote>
+          <figcaption class="author">
+            <span class="avatar lg">SM</span>
+            <div>
+              <div class="name">Sofia Moreau</div>
+              <div class="role">Design Lead, Notion</div>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================== CTA banner -->
+  <section id="cta" style="padding-top:0;">
+    <div class="container">
+      <div class="cta-banner reveal">
+        <div class="inner">
+          <h2 class="t-display-md">Ship your own premium dark product.</h2>
+          <p class="t-body-lg">Copy the tokens from <span class="t-mono" style="font-size:14px; color:var(--lin-ink-subtle);">references/linear.css</span>, open this rendu, and make it yours.</p>
+          <div class="cta-row">
+            <button class="btn btn-primary">Start building</button>
+            <button class="btn btn-secondary">Copy the CSS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================================================== footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a class="wordmark" href="#top" style="margin-bottom:var(--lin-space-4); display:inline-flex;" aria-label="Linear — back to top">
+          <span class="mark" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M1.225 61.523c-.222-.949.908-1.546 1.597-.857l36.512 36.512c.69.69.092 1.82-.857 1.597-18.425-4.323-32.93-18.827-37.252-37.252M.002 46.889a1 1 0 0 0 .29.76L52.35 99.71c.201.2.478.307.76.29 2.37-.149 4.695-.46 6.963-.927.765-.157 1.03-1.096.478-1.648L2.576 39.448c-.552-.551-1.491-.286-1.648.479a50 50 0 0 0-.926 6.962M4.21 29.705a.99.99 0 0 0 .208 1.1l64.776 64.776a.99.99 0 0 0 1.1.208 50 50 0 0 0 5.185-2.684.98.98 0 0 0 .183-1.54L8.436 24.336a.98.98 0 0 0-1.541.183 50 50 0 0 0-2.684 5.185m8.448-11.631a.986.986 0 0 1-.045-1.354C21.78 6.46 35.111 0 49.952 0 77.592 0 100 22.407 100 50.048c0 14.84-6.46 28.172-16.72 37.338a.986.986 0 0 1-1.354-.045z"/>
+            </svg>
+          </span>
+          Linear
+        </a>
+        <p class="t-body-sm ink-subtle" style="margin-top:var(--lin-space-4); max-width:280px;">
+          Rendu of the <span class="t-mono" style="font-size:12px;">linear-design</span> skill — a replica of Linear's premium dark identity, token by token.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#product">Overview</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#customers">Customers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">Docs</a></li>
+          <li><a href="#">API</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Brand</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Linear Design Rendu — non-affiliated demonstration.</span>
+      <div class="social">
+        <span class="t-mono">canvas #010102</span>
+        <span class="t-mono">accent #5e6ad2</span>
+        <span class="t-mono">radius md 8px</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ================================================== command palette -->
+<div class="palette-scrim" id="palette" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette">
+    <div class="palette-search">
+      <svg class="mag" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+      <input type="text" placeholder="Search or jump to…" aria-label="Search">
+      <kbd>esc</kbd>
+    </div>
+    <div class="palette-group">
+      <div class="palette-group-label">Jump to</div>
+      <div class="palette-item selected">
+        <svg class="ic" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12V4.5L8 2l6 2.5V12"/><path d="M2 12h12"/><path d="M8 2v10"/></svg>
+        Inbox
+        <kbd>G I</kbd>
+      </div>
+      <div class="palette-item">
+        <svg class="ic" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13V6l5-3 5 3v7"/><path d="M3 13h10"/><path d="M8 3v10"/></svg>
+        My issues
+        <kbd>G M</kbd>
+      </div>
+      <div class="palette-item">
+        <svg class="ic" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.5"/><path d="M8 2.5V1M8 15v-1.5M13.5 8H15M1 8h1.5"/></svg>
+        Settings
+        <kbd>G S</kbd>
+      </div>
+    </div>
+    <div class="palette-group">
+      <div class="palette-group-label">Actions</div>
+      <div class="palette-item">
+        <svg class="ic accent" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M8 2v12M2 8h12"/></svg>
+        Create issue
+        <kbd>C</kbd>
+      </div>
+      <div class="palette-item">
+        <svg class="ic" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="8" r="2.2"/><circle cx="11" cy="5" r="2.2"/><circle cx="11" cy="11" r="2.2"/></svg>
+        Invite teammates
+        <kbd>T</kbd>
+      </div>
+      <div class="palette-item">
+        <svg class="ic" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5v13M8 1.5 11 4.5M8 1.5 5 4.5"/><path d="M2 6h12M2 10h12"/></svg>
+        Change theme
+        <kbd>⌘ + ⇧ + L</kbd>
+      </div>
+    </div>
+    <div class="palette-foot">
+      <span class="hint"><kbd>↑</kbd><kbd>↓</kbd> to navigate</span>
+      <span class="hint"><kbd>↵</kbd> to select</span>
+      <span class="hint"><kbd>esc</kbd> to close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- reveal on scroll ---------- */
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add('in'); });
+  }
+
+  /* ---------- command palette ---------- */
+  var palette = document.getElementById('palette');
+  var paletteInput = palette.querySelector('input');
+  var paletteOpeners = document.querySelectorAll('[data-open-palette]');
+
+  function openPalette() {
+    palette.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () { paletteInput.focus(); }, 60);
+  }
+  function closePalette() {
+    palette.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  paletteOpeners.forEach(function (el) {
+    el.addEventListener('click', openPalette);
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openPalette();
+      }
+    });
+  });
+  palette.addEventListener('click', function (e) {
+    if (e.target === palette) closePalette();
+  });
+  document.addEventListener('keydown', function (e) {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      palette.classList.contains('open') ? closePalette() : openPalette();
+    }
+    if (e.key === 'Escape' && palette.classList.contains('open')) {
+      closePalette();
+    }
+  });
+
+  /* ---------- pricing toggle ---------- */
+  var billingBtns = document.querySelectorAll('[data-billing]');
+  var proAmount = document.querySelector('[data-price-m]');
+  billingBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      billingBtns.forEach(function (b) { b.classList.remove('selected'); });
+      btn.classList.add('selected');
+      if (btn.dataset.billing === 'yearly' && proAmount) {
+        proAmount.textContent = '$' + proAmount.dataset.priceY;
+      } else if (proAmount) {
+        proAmount.textContent = '$' + proAmount.dataset.priceM;
+      }
+    });
+  });
+
+  /* ---------- scrollspy for nav ---------- */
+  var navLinks = document.querySelectorAll('#nav-links a');
+  var sections = document.querySelectorAll('section[id]');
+  if ('IntersectionObserver' in window && navLinks.length) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function (link) {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      });
+    }, { rootMargin: '-35% 0px -55% 0px' });
+    sections.forEach(function (s) { spy.observe(s); });
+  }
+})();
+</script>
+
+</body>
+</html>

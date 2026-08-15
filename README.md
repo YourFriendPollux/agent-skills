@@ -38,7 +38,7 @@ available.
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
 | [coding/](coding) | [lean-code](coding/lean-code) | Code minimalism and review, mode-filtered |
 | [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
-| [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design) | Design-system replication |
+| [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design)<br>[linear-design](design/linear-design) | Design-system replication |
 
 ---
 
@@ -59,7 +59,8 @@ available.
 │   └── mirofish/
 └── design/
     ├── github-design/
-    └── google-design/
+    ├── google-design/
+    └── linear-design/
 ```
 
 ---
@@ -99,6 +100,7 @@ available.
 |-------|-------------|
 | [**github-design**](design/github-design) | Replicate GitHub's visual identity and Primer design system — color tokens (light & dark), typography, spacing, Octicons, and the component catalog. |
 | [**google-design**](design/google-design) | Replicate Google's visual identity and Material Design 3 — brand colors, Google Sans, the tonal system, type scale, and component patterns. |
+| [**linear-design**](design/linear-design) | Replicate Linear's premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, Linear typography with negative tracking, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
 
 ---
 
