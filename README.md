@@ -13,7 +13,6 @@ domain knowledge for a specific task or domain.
 - [Skills](#skills)
   - [Meta](#meta)
   - [Security](#security)
-  - [Coding](#coding)
   - [Tools](#tools)
   - [Design](#design)
 - [What is a skill?](#what-is-a-skill)
@@ -26,19 +25,18 @@ domain knowledge for a specific task or domain.
 
 ## Overview
 
-This repository gathers skills authored for real engagements and product work,
-cleaned up and organized by category. Each skill is a self-contained folder that
-an agent loads on demand, so nothing here needs to be "installed" as a package —
+This repository gathers skills for real engagements and product work, cleaned
+up and organized by category. Each skill is a self-contained folder that an
+agent loads on demand, so nothing here needs to be "installed" as a package —
 you install its folder into your agent's skills directory and it becomes
 available.
 
 | Category | Skills | Purpose |
 |----------|--------|---------|
-| [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene and anonymization<br>Exhaustive pre-publication leak scan<br>How to write skills that actually work |
+| [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene, anonymization, and authoring |
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
-| [coding/](coding) | [lean-code](coding/lean-code) | Code minimalism and review, mode-filtered |
-| [tools/](tools) | [mirofish](tools/mirofish) | Tool / API integration |
-| [design/](design) | [github-design](design/github-design)<br>[google-design](design/google-design)<br>[linear-design](design/linear-design) | Design-system replication |
+| [tools/](tools) | [mirofish](tools/mirofish) | Multi-agent simulation via REST API |
+| [design/](design) | [linear-design](design/linear-design) | Design-system replication |
 
 ---
 
@@ -49,18 +47,25 @@ available.
 ├── meta/
 │   ├── leak-guard/
 │   ├── skill-anonymizer/
+│   │   ├── references/
+│   │   └── scripts/
 │   └── skill-authoring/
+│       ├── assets/
+│       └── scripts/
 ├── security/
 │   ├── authorized-pentest/
+│   │   └── exploit/
 │   └── kali-operator/
-├── coding/
-│   └── lean-code/
+│       ├── references/
+│       └── scripts/
 ├── tools/
 │   └── mirofish/
+│       └── references/
 └── design/
-    ├── github-design/
-    ├── google-design/
     └── linear-design/
+        ├── docs/
+        ├── examples/
+        └── evals/
 ```
 
 ---
@@ -71,7 +76,7 @@ available.
 
 | Skill | Description |
 |-------|-------------|
-| [**leak-guard**](meta/leak-guard) | Scan skills and documentation for credentials, secrets, and PII, then redact them with safe placeholders. Run it before saving any new or edited `SKILL.md`. |
+| [**leak-guard**](meta/leak-guard) | Ensure no sensitive information leaks when an AI writes a skill or other documentation — scan for credentials, secrets, PII, internal network details, and proprietary data, then redact with safe placeholders. Run it before saving any new or edited `SKILL.md`. |
 | [**skill-anonymizer**](meta/skill-anonymizer) | Run an exhaustive pre-publication anonymization scan of a repo or document set — secrets, PII, internal IPs/hostnames, client names, proprietary data — classify findings, redact, and produce a sign-off report. Ships with a dependency-free scanner and a full detection catalog. |
 | [**skill-authoring**](meta/skill-authoring) | Write a skill that actually works — design the trigger (frontmatter), structure the SKILL.md body, bundle `references/`/`scripts/`/`assets/`, and verify it loads and fires before shipping. Ships with a fill-in template and a validation script. |
 
@@ -79,27 +84,19 @@ available.
 
 | Skill | Description |
 |-------|-------------|
-| [**authorized-pentest**](security/authorized-pentest) | Run an authorized penetration test end to end — recon, enumeration, exploitation, privilege escalation, reporting. Refuses any action outside an explicit scope. |
+| [**authorized-pentest**](security/authorized-pentest) | Run an authorized penetration test end to end — scoping, recon, enumeration, exploitation, privilege escalation, reporting. Refuses any action outside an explicit scope. |
 | [**kali-operator**](security/kali-operator) | Operate Kali Linux like a senior pentester — tool selection, result interpretation, diagnostics, and Bash/Python automation, strictly within an authorized scope. |
-
-### Coding
-
-| Skill | Description |
-|-------|-------------|
-| [**lean-code**](coding/lean-code) | Write minimal, efficient code and review diffs for over-engineering, with intensity levels (lite / full / ultra) and a Hermes plugin that injects only the sections matching the active mode. |
 
 ### Tools
 
 | Skill | Description |
 |-------|-------------|
-| [**mirofish**](tools/mirofish) | Operate the MiroFish swarm-intelligence prediction engine — prepare, launch, monitor, stop, and report on multi-agent social simulations via its Flask REST API. |
+| [**mirofish**](tools/mirofish) | Operate the MiroFish swarm-intelligence prediction engine — start the backend, prepare, launch, monitor, stop, and generate reports for multi-agent social simulations (Twitter/Reddit/parallel) via its Flask REST API. |
 
 ### Design
 
 | Skill | Description |
 |-------|-------------|
-| [**github-design**](design/github-design) | Replicate GitHub's visual identity and Primer design system — color tokens (light & dark), typography, spacing, Octicons, and the component catalog. |
-| [**google-design**](design/google-design) | Replicate Google's visual identity and Material Design 3 — brand colors, Google Sans, the tonal system, type scale, and component patterns. |
 | [**linear-design**](design/linear-design) | Replicate Linear's premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, Linear typography with negative tracking, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
 
 ---
@@ -114,7 +111,10 @@ skill-name/
 ├── SKILL.md        # YAML frontmatter (name + description) and markdown instructions
 ├── references/     # optional: documentation loaded on demand
 ├── scripts/        # optional: deterministic, runnable helpers
-└── assets/         # optional: templates, icons, and other output files
+├── assets/         # optional: templates, icons, and other output files
+├── docs/           # optional: extended documentation
+├── examples/       # optional: usage examples
+└── evals/          # optional: evaluation prompts and expected outputs
 ```
 
 The frontmatter `name` and `description` are what the agent reads to decide when
@@ -153,6 +153,7 @@ directory. The agent discovers it automatically:
 | Cursor | `~/.cursor/skills/` | `.cursor/skills/` |
 | Windsurf | `~/.windsurf/skills/` | `.windsurf/skills/` |
 | Hermes | `~/.hermes/skills/` | — |
+| Generic | `~/.agent/skills/` | `.agent/skills/` |
 
 ```bash
 # example: install authorized-pentest for Codex

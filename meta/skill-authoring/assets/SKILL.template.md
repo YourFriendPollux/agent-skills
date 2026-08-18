@@ -2,7 +2,6 @@
 name: my-skill
 description: "Do <outcome> — <1-2 concrete verbs and objects>. Use whenever <triggers: user phrasing, keywords, artifact names>."
 version: 1.0.0
-author: Dandl AI
 license: AGPL-3.0
 metadata:
   tags: [<category>, <domain>]

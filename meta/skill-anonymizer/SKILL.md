@@ -2,7 +2,6 @@
 name: skill-anonymizer
 description: "Run an exhaustive pre-publication anonymization scan of a repository or document set — secrets, PII, internal IPs and hostnames, client and customer names, proprietary data — classify findings, redact with placeholders, produce a sign-off report. Use whenever publishing a repo or docs publicly, or before sharing anything that may contain internal or client data. Complements leak-guard."
 version: 1.0.0
-author: Dandl AI
 license: AGPL-3.0
 metadata:
   tags: [meta, anonymization, secrets, pii, pre-publication, security]

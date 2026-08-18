@@ -2,7 +2,6 @@
 name: skill-authoring
 description: "Write a skill that actually works — design the trigger (name + description frontmatter), structure a lean SKILL.md body, bundle references/scripts/assets, and verify the skill loads and fires correctly before shipping. Use whenever creating, editing, or reviewing a skill, a SKILL.md, or agent instruction files."
 version: 1.0.0
-author: Dandl AI
 license: AGPL-3.0
 metadata:
   tags: [meta, skill-authoring, agent-instructions, frontmatter, workflows]
@@ -56,7 +55,6 @@ Three consequences:
 name: my-skill          # lowercase-hyphen-case; must match the folder name
 description: "Do <outcome> — <concrete verbs and objects>. Use whenever <triggers: user phrasing, keywords, artifact names>."
 version: 1.0.0          # optional but recommended
-author: Dandl AI        # optional
 license: AGPL-3.0       # optional
 metadata:               # optional
   tags: [meta, authoring]
