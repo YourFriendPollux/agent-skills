@@ -1,6 +1,6 @@
 # Example — Command palette (⌘K)
 
-A Linear-style command palette. This is a floating, elevated overlay — the one
+A Professional SaaS command palette. This is a floating, elevated overlay — the one
 place the surface ladder runs deep.
 
 ## Layout

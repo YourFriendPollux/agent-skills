@@ -1,6 +1,6 @@
 # Example — Project management
 
-A Linear-style issue tracker / kanban board. This is the *app* surface, not
+A Professional SaaS issue tracker / kanban board. This is the *app* surface, not
 the marketing site: it inherits the same tokens but adds the richer in-app
 tag palette for priorities and labels.
 

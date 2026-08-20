@@ -1,6 +1,6 @@
 # Example — Settings
 
-A Linear-style settings page. Settings are the least "premium" surface to get
+A Professional SaaS settings page. Settings are the least "premium" surface to get
 wrong: keep it quiet, dense, and predictable.
 
 ## Layout

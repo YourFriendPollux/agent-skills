@@ -6,11 +6,10 @@ The rules that keep the look *premium* rather than generic. Values live in
 
 ## When to use
 
-- Any interface that must look like Linear: issue trackers, dashboards, dark
-  SaaS landing pages, pricing pages.
-- A "premium dark product" brief — the user says "Linear-style", "Linear
-  look", "dark premium SaaS", "like linear.app".
-- Styling themes, components, or full pages "in the Linear style".
+- Any interface that needs a premium dark SaaS look: issue trackers, dashboards, dark
+  landing pages, pricing pages.
+- A "premium dark product" or "professional SaaS" brief — dark, dense, software-craft aesthetic.
+- Styling themes, components, or full pages in the professional dark style.
 - The user wants the *opposite* of the generic AI-SaaS look (no gradient
   blobs, no purple-blue gradient hero).
 
@@ -26,7 +25,7 @@ The rules that keep the look *premium* rather than generic. Values live in
    gradient orbs.
 5. **Canvas is `#010102`, never `#000000`.** The faint blue tint is
    intentional.
-6. **Display 600, body 400, negative tracking.** Linear resists 700+ display
+6. **Display 600, body 400, negative tracking.** The system resists 700+ display
    weights; display tracking runs -3.0px → 0 as size falls.
 7. **Product screenshots are the protagonist.** Lead sections with
    high-fidelity product UI framed in surface-1 panels (radius 16px).
@@ -69,7 +68,7 @@ The rules that keep the look *premium* rather than generic. Values live in
 | Shipping light mode | Loses the identity | Dark-first, always |
 | Lavender as card/section fill | Accent stops being scarce | Primary = CTA/focus/links only |
 | Gradient hero / orbs | Instant "generic AI SaaS" | Restraint (design-system §Gradients) |
-| `#000000` canvas | Flatter, colder than Linear | `#010102` with blue tint |
+| `#000000` canvas | Flatter, colder | `#010102` with blue tint |
 | Pill-shaped CTAs | Wrong radius language | `md` 8px for buttons/inputs |
 | Drop shadows on dark | Muddy depth | Surface ladder + hairline |
 | Display weight 700+ | Shouts, breaks the voice | 600 max, 400 body |
@@ -80,9 +79,6 @@ The rules that keep the look *premium* rather than generic. Values live in
 
 ## Out of scope
 
-- Reproducing Linear's proprietary logo assets — download from
-  linear.app/brand; never alter or combine. (The logomark path shipped in
-  `docs/design-system.md` is a *replica* for consented, clearly non-affiliated
-  demos only.)
+- Do not replicate third-party proprietary logo assets — create your own mark; never imply affiliation.
 - Replicating in-app status/priority tag palettes (values not documented).
 - Legal advice on brand usage; do not imply affiliation or endorsement.

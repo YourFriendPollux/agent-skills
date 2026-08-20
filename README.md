@@ -36,7 +36,7 @@ available.
 | [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene, anonymization, and authoring |
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
 | [tools/](tools) | [mirofish](tools/mirofish) | Multi-agent simulation via REST API |
-| [design/](design) | [linear-design](design/linear-design) | Design-system replication |
+| [design/](design) | [professional-saas](design/professional-saas) | Design-system replication |
 
 ---
 
@@ -62,7 +62,7 @@ available.
 │   └── mirofish/
 │       └── references/
 └── design/
-    └── linear-design/
+    └── professional-saas/
         ├── docs/
         ├── examples/
         └── evals/
@@ -97,7 +97,7 @@ available.
 
 | Skill | Description |
 |-------|-------------|
-| [**linear-design**](design/linear-design) | Replicate Linear's premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, Linear typography with negative tracking, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
+| [**professional-saas**](design/professional-saas) | Premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, negative-tracking display type, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
 
 ---
 
@@ -135,10 +135,10 @@ Install individual skills straight from this repository without cloning it:
 
 ```bash
 # preview the skills available in this repo
-npx skills add Dandl-ai/agent-skills --list
+npx skills add YourFriendPollux/agent-skills --list
 
 # install one skill into ./.agents/skills/
-npx skills add Dandl-ai/agent-skills --skill authorized-pentest --yes
+npx skills add YourFriendPollux/agent-skills --skill authorized-pentest --yes
 ```
 
 ### Copy the folder

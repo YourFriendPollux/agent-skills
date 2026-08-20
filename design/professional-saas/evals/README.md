@@ -1,6 +1,6 @@
 # Evals
 
-A small harness for grading whether an output actually follows the Linear
+A small harness for grading whether an output actually follows the professional SaaS
 identity — not just whether it *looks* dark.
 
 ## Layout

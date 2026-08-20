@@ -14,4 +14,4 @@
 - Drop shadows on cards.
 - Colored column backgrounds (columns must be surface lifts).
 - Mono used for marketing chrome (titles, headings).
-- Invented priority/label hex values presented as the official Linear palette.
+- Invented priority/label hex values presented as the official professional SaaS palette.

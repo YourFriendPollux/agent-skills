@@ -13,10 +13,10 @@ depth, 8px radius for controls, and lavender reserved for the primary action.
 - **Inverse button** — white bg, black text (rare, section openers).
 
 ```css
-.btn-primary  { background: var(--lin-primary); color: var(--lin-on-primary); }
-.btn-primary:hover  { background: var(--lin-primary-hover); }
-.btn-primary:active { background: var(--lin-primary-focus); }
-.btn-secondary { background: var(--lin-surface-1); color: var(--lin-ink); border: 1px solid var(--lin-hairline); }
+.btn-primary  { background: var(--ps-primary); color: var(--ps-on-primary); }
+.btn-primary:hover  { background: var(--ps-primary-hover); }
+.btn-primary:active { background: var(--ps-primary-focus); }
+.btn-secondary { background: var(--ps-surface-1); color: var(--ps-ink); border: 1px solid var(--ps-hairline); }
 ```
 
 All button labels: 14px / 500 / line-height 1.2 / tracking 0, 8px radius,
@@ -36,10 +36,10 @@ Pill-shaped toggle; default `canvas` bg + `ink-subtle` text; selected =
 
 ```css
 .card {
-  background: var(--lin-surface-1);
-  border: 1px solid var(--lin-hairline);
-  border-radius: var(--lin-radius-lg);
-  padding: var(--lin-space-6);
+  background: var(--ps-surface-1);
+  border: 1px solid var(--ps-hairline);
+  border-radius: var(--ps-radius-lg);
+  padding: var(--ps-space-6);
 }
 ```
 
@@ -50,13 +50,13 @@ Pill-shaped toggle; default `canvas` bg + `ink-subtle` text; selected =
 
 ```css
 input, textarea {
-  background: var(--lin-surface-1);
-  color: var(--lin-ink);
-  border: 1px solid var(--lin-hairline);
-  border-radius: var(--lin-radius-md);
+  background: var(--ps-surface-1);
+  color: var(--ps-ink);
+  border: 1px solid var(--ps-hairline);
+  border-radius: var(--ps-radius-md);
   padding: 8px 12px;
 }
-:focus-visible { outline: 2px solid var(--lin-primary-focus); outline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--ps-primary-focus); outline-offset: 2px; }
 ```
 
 ## Status badge
@@ -73,11 +73,11 @@ underline on hover/active, secondary + primary CTA right.
 ```css
 .wordmark {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--lin-font-display); font-size: 19px; font-weight: 600;
-  letter-spacing: -0.4px; color: var(--lin-ink); text-decoration: none;
+  font-family: var(--ps-font-display); font-size: 19px; font-weight: 600;
+  letter-spacing: -0.4px; color: var(--ps-ink); text-decoration: none;
 }
-.wordmark .mark { width: 22px; height: 22px; color: var(--lin-ink); transition: color 140ms ease; }
-.wordmark:hover .mark { color: var(--lin-primary); }
+.wordmark .mark { width: 22px; height: 22px; color: var(--ps-ink); transition: color 140ms ease; }
+.wordmark:hover .mark { color: var(--ps-primary); }
 ```
 
 ## Trusted-by logo band
@@ -111,11 +111,11 @@ favicon/wordmark SVGs — never invent placeholder marks.
 @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .logo-item {
   display: inline-flex; align-items: center; gap: 12px;
-  font-family: var(--lin-font-display); font-size: 19px; font-weight: 600;
-  letter-spacing: -0.4px; color: var(--lin-ink-subtle); opacity: .8;
+  font-family: var(--ps-font-display); font-size: 19px; font-weight: 600;
+  letter-spacing: -0.4px; color: var(--ps-ink-subtle); opacity: .8;
   white-space: nowrap; transition: color 160ms ease, opacity 160ms ease;
 }
-.logo-item:hover { color: var(--lin-ink); opacity: 1; }
+.logo-item:hover { color: var(--ps-ink); opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; }
   .marquee-group[aria-hidden="true"] { display: none; }

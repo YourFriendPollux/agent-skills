@@ -8,7 +8,7 @@ All notable changes to this skill are documented here. The format follows
 
 ### Added
 
-- Initial release: Linear dark theme tokens, component catalog, and guidelines.
+- Initial release: Professional SaaS dark theme tokens, component catalog, and guidelines.
 - `docs/` reference: design system, components, guidelines.
 - `examples/` applied examples: dashboard, settings, project-management,
   command-palette.

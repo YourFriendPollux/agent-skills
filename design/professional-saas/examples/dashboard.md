@@ -1,6 +1,6 @@
 # Example — Dashboard
 
-A Linear-style metrics dashboard. The goal is a dense, calm overview that
+A Professional SaaS metrics dashboard. The goal is a dense, calm overview that
 reads as *expensive*: one accent, surface lift for hierarchy, no shadows.
 
 ## Layout
@@ -41,7 +41,7 @@ reads as *expensive*: one accent, surface lift for hierarchy, no shadows.
 
 ```html
 <header class="nav">
-  <a class="wordmark"><svg class="mark">…</svg> Linear</a>
+  <a class="wordmark"><svg class="mark">…</svg> Professional SaaS</a>
   <nav>Overview · Analytics · Issues · Cycle</nav>
   <button class="btn-primary">New issue</button>
 </header>

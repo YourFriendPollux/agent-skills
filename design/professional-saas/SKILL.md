@@ -1,36 +1,32 @@
 ---
-name: linear-design
-description: "Replicate Linear's premium dark SaaS identity — near-black canvas (#010102), charcoal surface ladder, hairline borders, lavender-blue accent (#5e6ad2), negative-tracking display type, and gradient restraint. Use whenever an interface must look like Linear or a premium dark product (linear.app, Linear-style issue tracker, dark SaaS landing page)."
+name: professional-saas
+description: "Apply a premium dark SaaS identity — near-black canvas (#010102), charcoal surface ladder, hairline borders, lavender-blue accent (#5e6ad2), negative-tracking display type, and gradient restraint. Use whenever a professional SaaS product, issue tracker, dashboard, or dark landing page needs an expensive, software-craft look."
 version: 1.0.0
 license: AGPL-3.0
 metadata:
-  tags: [design, linear, dark-theme, saas, tokens, premium]
+  tags: [design, dark-theme, saas, tokens, premium, professional]
   related_skills: [github-design, google-design]
 ---
 
-# Linear Design — premium dark SaaS identity
+# Professional SaaS — premium dark identity
 
-Replicate **Linear**'s visual identity: the dark-first, dense,
-"software-craft" aesthetic that defines the premium SaaS category. This skill
-covers the dark theme, the design tokens, and the gradient discipline that
-make the look read as expensive rather than generic.
+Build a **professional dark SaaS** identity: the dark-first, dense,
+"software-craft" aesthetic for premium SaaS products. This skill covers the
+dark theme, the design tokens, and the gradient discipline that make the look
+read as expensive rather than generic.
 
-Values come from two sources — do not invent them:
-
-1. **linear.app/brand** (official brand page): naming, wordmark, logomark,
-   icon, brand color.
-2. **DesignMD's DESIGN.md analysis of linear.app** (designmd.co/d/linear.app)
-   — exact token values extracted from the live marketing site (canvas,
-   surfaces, hairlines, ink, type scale, components).
+Values are exact tokens (canvas, surfaces, hairlines, ink, type scale,
+components) extracted as a curated professional SaaS system — do not invent
+them. Source of truth is `docs/design-system.md`.
 
 ---
 
 ## When to use
 
-- Any interface that must look like Linear: issue trackers, dashboards, dark
-  SaaS landing pages, pricing pages.
-- A "premium dark product" brief — "Linear-style", "Linear look", "dark
-  premium SaaS", "like linear.app".
+- Any interface that needs a premium dark SaaS look: issue trackers,
+  dashboards, dark landing pages, pricing pages.
+- A "professional SaaS" or "premium dark product" brief — dark, dense,
+  software-craft aesthetic.
 - The user wants the *opposite* of the generic AI-SaaS look (no gradient
   blobs, no purple-blue gradient hero).
 
@@ -45,7 +41,7 @@ Values come from two sources — do not invent them:
    gradient orbs.
 5. **Canvas is `#010102`, never `#000000`.** The faint blue tint is
    intentional.
-6. **Display 600, body 400, negative tracking.** Linear resists 700+ display
+6. **Display 600, body 400, negative tracking.** Resists 700+ display
    weights.
 7. **Product screenshots are the protagonist.** Lead with high-fidelity
    product UI framed in surface-1 panels (16px radius).

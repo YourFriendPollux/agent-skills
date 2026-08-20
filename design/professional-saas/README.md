@@ -1,17 +1,12 @@
-# linear-design
+# professional-saas
 
-A skill for replicating **Linear**'s premium dark SaaS identity — the
-dark-first, dense, "software-craft" aesthetic that defines the premium SaaS
-category.
+A skill for a **premium dark SaaS identity** — the
+dark-first, dense, "software-craft" aesthetic for professional SaaS
+products.
 
 The skill covers the dark theme, the design tokens, and the gradient
 discipline that make the look read as *expensive* rather than generic. Values
-come from two sources — nothing is invented:
-
-1. **linear.app/brand** — official naming, wordmark, logomark, icon, brand
-   color.
-2. **DesignMD's DESIGN.md analysis of linear.app** (designmd.co/d/linear.app)
-   — exact token values extracted from the live marketing site.
+are a curated token set — nothing is invented.
 
 ## Structure
 
