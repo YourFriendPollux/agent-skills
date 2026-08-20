@@ -1,6 +1,6 @@
 ---
-name: professional-saas
-description: "Apply a premium dark SaaS identity — near-black canvas (#010102), charcoal surface ladder, hairline borders, lavender-blue accent (#5e6ad2), negative-tracking display type, and gradient restraint. Use whenever a professional SaaS product, issue tracker, dashboard, or dark landing page needs an expensive, software-craft look."
+name: minimal-saas
+description: "Apply a minimal premium dark SaaS identity — near-black canvas (#010102), charcoal surface ladder, hairline borders, lavender-blue accent (#5e6ad2), negative-tracking display type, and gradient restraint. Use whenever a professional SaaS product, issue tracker, dashboard, or dark landing page needs an expensive, software-craft look."
 version: 1.0.0
 license: AGPL-3.0
 metadata:
@@ -8,9 +8,9 @@ metadata:
   related_skills: [github-design, google-design]
 ---
 
-# Professional SaaS — premium dark identity
+# Minimal SaaS — premium dark identity
 
-Build a **professional dark SaaS** identity: the dark-first, dense,
+Build a **minimal premium dark SaaS** identity: the dark-first, dense,
 "software-craft" aesthetic for premium SaaS products. This skill covers the
 dark theme, the design tokens, and the gradient discipline that make the look
 read as expensive rather than generic.

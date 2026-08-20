@@ -36,7 +36,7 @@ available.
 | [meta/](meta) | [leak-guard](meta/leak-guard)<br>[skill-anonymizer](meta/skill-anonymizer)<br>[skill-authoring](meta/skill-authoring) | Skill hygiene, anonymization, and authoring |
 | [security/](security) | [authorized-pentest](security/authorized-pentest)<br>[kali-operator](security/kali-operator) | Offensive security, scoped and authorized |
 | [tools/](tools) | [mirofish](tools/mirofish) | Multi-agent simulation via REST API |
-| [design/](design) | [professional-saas](design/professional-saas) | Design-system replication |
+| [design/](design) | [minimal-saas](design/minimal-saas) | Design-system replication |
 
 ---
 
@@ -62,7 +62,7 @@ available.
 │   └── mirofish/
 │       └── references/
 └── design/
-    └── professional-saas/
+    └── minimal-saas/
         ├── docs/
         ├── examples/
         └── evals/
@@ -97,7 +97,7 @@ available.
 
 | Skill | Description |
 |-------|-------------|
-| [**professional-saas**](design/professional-saas) | Premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, negative-tracking display type, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
+| [**minimal-saas**](design/minimal-saas) | Minimal premium dark SaaS identity — near-black canvas, surface ladder, hairline borders, lavender-blue accent, negative-tracking display type, and gradient restraint. Ships with full tokens and a ready-to-use CSS block. |
 
 ---
 

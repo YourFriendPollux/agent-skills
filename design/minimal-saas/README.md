@@ -1,6 +1,6 @@
-# professional-saas
+# minimal-saas
 
-A skill for a **premium dark SaaS identity** — the
+A skill for a **minimal premium dark SaaS identity** — the
 dark-first, dense, "software-craft" aesthetic for professional SaaS
 products.
 
